@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>初探无后端静态博客自动化部署方案 | ChrAlpha 的实验室</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/img/suka-favicon.ico">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+
+
+
+    <!-- Prettify Theme -->
+    
+    <link rel="preload" href="/css/highlight/github.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/css/highlight/github.min.css"></noscript>
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="ChrAlpha 的实验室"><meta name="msapplication-starturl" content="https://test.ichr.ml"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ChrAlpha 的实验室"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="初探无后端静态博客自动化部署方案 | ChrAlpha 的实验室"><meta property="og:site_name" content="ChrAlpha 的实验室"><meta property="og:type" content="article"><meta property="og:url" content="https://test.ichr.ml/post/automated-deployment-of-serverless-static-blog/"><meta property="og:locale" content="en"><meta name="description" content="详细介绍目前主流的无后端静态博客自动化部署解决方案（Netlify, GitHub Actions, Travis CI）。 - ChrAlpha - ChrAlpha 的实验室"><meta name="keywords" content="Hexo, 自动化, 部署, Netlify, Github Actions, Travis CI, 博客, 无后端, 教程, 方法, 方案, 推送"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200214140626.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200214140627.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213141650.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213141652.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200214140628.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213141655.PNG?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213141651.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213204458.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213204511.PNG?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213232311.PNG?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213232310.PNG?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1"><meta property="article:published_time" content="2020-02-14T14:10:12.000Z"><meta property="article:modified_time" content="2020-02-28T13:01:40.608Z"><meta property="og:updated_time" content="2020-02-28T13:01:40.608Z"><meta property="article:author" content="ChrAlpha"><meta property="article:tag" content="Hexo, 自动化, 部署, Netlify, Github Actions, Travis CI, 博客, 无后端, 教程, 方法, 方案, 推送"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://test.ichr.ml/post/automated-deployment-of-serverless-static-blog/">
+
+    <meta name="generator" content="Hexo 4.2.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://test.ichr.ml/post/automated-deployment-of-serverless-static-blog/",
+    "@type": "BlogPosting",
+    "logo": "https://test.ichr.ml/img/suka-favicon.ico",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://test.ichr.ml/post/automated-deployment-of-serverless-static-blog/"
+    },
+    "headline": "初探无后端静态博客自动化部署方案 | ChrAlpha 的实验室",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://test.ichr.ml/img/suka-favicon.ico"
+    },
+    
+    "datePublished": "2020-02-14T14:10:12.000Z",
+    "dateModified": "2020-02-28T13:01:40.608Z",
+    "author": {
+        "@type": "Person",
+        "name": "ChrAlpha",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/default_avatar.png"
+        },
+        "description": "Only for test."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "ChrAlpha 的实验室",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/suka-favicon.ico"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://test.ichr.ml/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "Hexo, 自动化, 部署, Netlify, Github Actions, Travis CI, 博客, 无后端, 教程, 方法, 方案, 推送",
+    "description": "详细介绍目前主流的无后端静态博客自动化部署解决方案（Netlify, GitHub Actions, Travis CI）。 - ChrAlpha - ChrAlpha 的实验室"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">ChrAlpha 的实验室</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                Only for test.
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">Home</a>
+    
+    
+        <a href="/archives/" class="navbar-link">Archives</a>
+    
+    
+        <a href="/search" class="navbar-link">Search</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">Share</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=ChrAlpha 的实验室&url=https://test.ichr.ml&pic=https://test.ichr.ml/img/suka-favicon.ico&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=ChrAlpha 的实验室&url=https://test.ichr.ml&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml&title=初探无后端静态博客自动化部署方案" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=初探无后端静态博客自动化部署方案&summary=&pics=https://test.ichr.ml/img/suka-favicon.ico&url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://test.ichr.ml&text=初探无后端静态博客自动化部署方案" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACMUlEQVR42u2ay3KDQAwE+f+fdi45ONSiaW2RioOaizF+bG8VEqORjtc/OA4hhRRSyA+APIrjxw++359fV5+fz8/X6LpCzoVc3rTvX67+aHG+2uRqA3FdIUdDVjd4gl9tpvqcrCukkBRyFQgkGK4CTkghdyFT0u4keiGFJJBXD/oroUAESdrUbSpIyMdBVgXRb77eVi0K+SjIaBoVxVV1jYqPW1w1IR8FWd3IxDToCAhqOAg5G5IUXd0/J5tIokTIuZDJ8EwGPxHLHXFRqiAhR0B2RAGFviz2dwsxIUdCVjBX58noSpuNhpeQIyFToVU1iarETI2trUJMyEdDJgGajPsqyEixVzZMhRwLSW522iyioqPatJBCkuDZKciqYq6tgoQcB0kH5lISTsMmSQxHgSHkCEgiFMgwZwVVBUlLYAg5AjKZncSkTwmcGGSlYSXkGMiUiGnDPgVXSv6xSyvkGMhk3NPNJBDSHBBSSDrwQYVESzzsGFZCjoBMg5206EqNKhJEQgpJBkWoICCmQiewhBSSGFQpydOCLjVGhRSSiFYsVIGZj5O7kOMhU2HWHdwkYqVcT8jxkPS8U5ilARHsqgk5BpIYpanxRAr9zjUhZ0PSG5kmZRJE2BgTciwkaSSl76SNElNBSCE7hjwF6YqKUnQLKWQwNztGabc5unwICCkkhCTClgyRxKE+IUdDVkY7WTiZ/R3TSkgh04M/BUhqOG0PfAo5EvKTDyGFFFLIPzy+ALk7dtWEfT+JAAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">初探无后端静态博客自动化部署方案</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/img/default_avatar.png" src="/img/suka-lazyload.gif" alt="ChrAlpha's Avatar">
+        <span>2020-02-14</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E7%AC%94%E8%AE%B0%E6%9C%AC/">笔记本</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">Share the post</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=初探无后端静态博客自动化部署方案&url=https://test.ichr.ml/post/automated-deployment-of-serverless-static-blog/&pic=https://test.ichr.ml/img/suka-favicon.ico&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=初探无后端静态博客自动化部署方案&url=https://test.ichr.ml/post/automated-deployment-of-serverless-static-blog/&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml/post/automated-deployment-of-serverless-static-blog/" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://test.ichr.ml/post/automated-deployment-of-serverless-static-blog/" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml/post/automated-deployment-of-serverless-static-blog/&title=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=ChrAlpha 的实验室&summary=&pics=https://test.ichr.ml/img/suka-favicon.ico&url=https://test.ichr.ml/post/automated-deployment-of-serverless-static-blog/" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://test.ichr.ml/post/automated-deployment-of-serverless-static-blog/&text=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACMUlEQVR42u2ay3KDQAwE+f+fdi45ONSiaW2RioOaizF+bG8VEqORjtc/OA4hhRRSyA+APIrjxw++359fV5+fz8/X6LpCzoVc3rTvX67+aHG+2uRqA3FdIUdDVjd4gl9tpvqcrCukkBRyFQgkGK4CTkghdyFT0u4keiGFJJBXD/oroUAESdrUbSpIyMdBVgXRb77eVi0K+SjIaBoVxVV1jYqPW1w1IR8FWd3IxDToCAhqOAg5G5IUXd0/J5tIokTIuZDJ8EwGPxHLHXFRqiAhR0B2RAGFviz2dwsxIUdCVjBX58noSpuNhpeQIyFToVU1iarETI2trUJMyEdDJgGajPsqyEixVzZMhRwLSW522iyioqPatJBCkuDZKciqYq6tgoQcB0kH5lISTsMmSQxHgSHkCEgiFMgwZwVVBUlLYAg5AjKZncSkTwmcGGSlYSXkGMiUiGnDPgVXSv6xSyvkGMhk3NPNJBDSHBBSSDrwQYVESzzsGFZCjoBMg5206EqNKhJEQgpJBkWoICCmQiewhBSSGFQpydOCLjVGhRSSiFYsVIGZj5O7kOMhU2HWHdwkYqVcT8jxkPS8U5ilARHsqgk5BpIYpanxRAr9zjUhZ0PSG5kmZRJE2BgTciwkaSSl76SNElNBSCE7hjwF6YqKUnQLKWQwNztGabc5unwICCkkhCTClgyRxKE+IUdDVkY7WTiZ/R3TSkgh04M/BUhqOG0PfAo5EvKTDyGFFFLIPzy+ALk7dtWEfT+JAAAAAElFTkSuQmCC" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#期望"><span class="post-toc-number">1.</span> <span class="post-toc-text">期望</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Netlify"><span class="post-toc-number">2.</span> <span class="post-toc-text">Netlify</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#部署操作"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">部署操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#自动更新"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">自动更新</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#小结"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">小结</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#GitHub-Actions"><span class="post-toc-number">3.</span> <span class="post-toc-text">GitHub Actions</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#部署操作-1"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">部署操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#小结-1"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">小结</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Travis-CI"><span class="post-toc-number">4.</span> <span class="post-toc-text">Travis CI</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#部署步骤"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">部署步骤</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#小结-2"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">小结</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最后"><span class="post-toc-number">5.</span> <span class="post-toc-text">最后</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <blockquote>
+<p>本文首发于「<a href="https://sspai.com/post/58879" target="_blank" rel="noopener">少数派</a>」。</p>
+</blockquote>
+<a id="more"></a>
+
+<p>与 Hexo 同样，Hugo, Vuepress 等都属于「无后端静态博客」阵容。而部署流程也不外乎在本地利用环境生成静态资源并上传网页目录，托管于不同服务。</p>
+<p>而如果我们希望能够在一台陌生设备上迅速「恢复状态」，则需要：</p>
+<ul>
+<li>利用本地搭建好的环境生成 <strong>网页目录</strong> 并上传部署</li>
+<li>同步 <strong>博客源码</strong> 至云端方便异地协作</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200214140626.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<p>好像也不麻烦？</p>
+<p>但是在每一台设备上都绕不过恼人的环境配置。</p>
+<p>更何况，<strong>能一步做好的，为什么要两步？！</strong></p>
+<h2 id="期望"><a href="#期望" class="headerlink" title="期望"></a>期望</h2><p>我们设想以下场景：</p>
+<ul>
+<li>使用 GitHub 私有仓库 <code>blog</code> 存放博客源码</li>
+<li>使用 GitHub 公共仓库 <code>website</code> 存放网页目录</li>
+</ul>
+<p>我们的预期是，将网站更新后的源码推送到 <code>blog</code> 时，能够自动检测更新并且重新部署到 <code>website</code> 中。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200214140627.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<p>也就是说，只有红色部分是需要我们手动完成的，其余的（蓝色部分）则交给自动化。</p>
+<p>好在，现在已经有比较成熟的解决方案。例如即将提到的：Netlify, GitHub Actions, Travis CI 等。</p>
+<h2 id="Netlify"><a href="#Netlify" class="headerlink" title="Netlify"></a>Netlify</h2><blockquote>
+<p>可能是目前最<strong>简单</strong>的自动化部署方案了。</p>
+</blockquote>
+<p><strong>Netlify</strong> 是一家位于旧金山的云计算公司，为静态网站提供托管服务。同时拥有免费和付费的服务可供选取，免费额度目前为 300 分钟每月的计算时长限制和 100 GB 每月的流量限制，超出都会索取一定费用。关于不同套餐之间的功能和限制可以参考 <a href="https://www.netlify.com/pricing/" target="_blank" rel="noopener">官方页面</a> 。</p>
+<p>计算资源方面与 GitHub Action 相比有点「节约」，一次更新大概是需要 1 分钟左右的部署，一个月约 300 次的更新也还算充裕。如果需要调试页面还是建议就放在本地执行。</p>
+<h3 id="部署操作"><a href="#部署操作" class="headerlink" title="部署操作"></a>部署操作</h3><p>Netlify 部署的流程也很简单，我们详细的来看一下。</p>
+<p>首先自然是使用 GitHub 账号登陆，然后来到主页，点击 <code>New site from Git</code> </p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213141650.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<p>紧接着选择从 GitHub 获取，会让你授权，并不需要将所有 repositories 都授权给 Netlify，即便是私有仓库也没问题。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213141652.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<p>注意这里，建议只将需要部署的仓库授权给 Netlify 而非全部仓库：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200214140628.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<p>之后就可以配置部署的设置了。需要注意：<code>Build command</code> 指的是构建，也就是生成网站源码所使用的命令；而 <code>Publish diretory</code> 则为生成的网页目录的位置。此外我们还可以调整默认部署的分支和拥有者（免费版暂不支持多账号协作）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213141655.PNG?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<p>点击 <code>Deploy site</code> ，稍微等待一会你的网站就部署好了。可以前往设置更改 <code>site-name</code> ，默认域名为 <code>site-name.netlify.com</code> ，你也可以绑定自己的域名，Netlify 使用 Let’s Encrypt 提供的免费证书进行 HTTPS 部署。</p>
+<h3 id="自动更新"><a href="#自动更新" class="headerlink" title="自动更新"></a>自动更新</h3><p>待上述步骤完成，不出意料我们已经可以访问网站了。</p>
+<p>现在尝试一下添加 post，将其直接推送到 <code>Blog</code> 仓库中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;Hello Netlify&quot;</span><br><span class="line"></span><br><span class="line"># ------------------------------</span><br><span class="line">## Editing the post</span><br><span class="line"># ------------------------------</span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line"></span><br><span class="line">git commit -m &quot;add post&quot;</span><br><span class="line"></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<p>再回到 Netlify 页面，发现 Netlify 已经成功监测到 repository 变动并自动开始了新的部署。不一会，就已看到新的页面上线了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213141651.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Netlify 凭借足够简易的操作逻辑，以及可观的免费额度，确实值得考虑。</p>
+<p>另外， Netlify 提供全球 CDN 支持，即便是免费账户也可以享受更快的访问速度，这一点较 GitHub Page 在体验上确实加分不少。</p>
+<h2 id="GitHub-Actions"><a href="#GitHub-Actions" class="headerlink" title="GitHub Actions"></a>GitHub Actions</h2><blockquote>
+<p>享受慷慨资源的同时，意味着一定的代码能力。</p>
+</blockquote>
+<p><strong>GitHub Actions</strong> 允许使用者构建持续集成与持续部署管道来测试、发布、搭建软件而无需借助第三方平台。持续集成由许多操作组成，如抓取代码、运行测试、发布等，GitHub 将其统称为 Actions。</p>
+<p>借助这个特性，我们也可以让 GitHub Actions 来帮助我们部署网页。</p>
+<p>GitHub 继续维系大厂作风，免费额度可以说是「慷慨」。6 小时的<strong>连续</strong>计算时长限制，而<strong>总时长则不设限</strong>。这点可以说是碾压 Netlify 的免费额度。</p>
+<p>而在 GitHub Action 里，有这样几个基本的「单位」：</p>
+<ol>
+<li><code>workflow</code>：一个持续集成的过程，就是一个 workflow 。</li>
+<li><code>jobs</code>：一个 workflow 可以同时完成多个 jobs，每个 job 独立完成，互不干扰。</li>
+<li><code>steps</code>：每个 job 可以包含多个 steps，一步步完成。</li>
+<li><code>actons</code>：每个 step 可以执行多个 action 。action 可以理解为一条条命令，是 GitHub Actions 中最小的单位。</li>
+</ol>
+<p>且 GitHub Actions 为每个 Job 提供一个独立的虚拟环境运行，都拥有相同的硬件资源：</p>
+<ul>
+<li>2 核 CPU</li>
+<li>7 GB RAM 内存</li>
+<li>14 GB SSD 硬盘</li>
+</ul>
+<p>重新定义良心……</p>
+<p>关于 <a href="https://help.github.com/en/actions/getting-started-with-github-actions/about-github-actions#usage-limits" target="_blank" rel="noopener">限制</a> 和 <a href="https://help.github.com/en/github/setting-up-and-managing-billing-and-payments-on-github/about-billing-for-github-actions#about-billing-for-github-actions" target="_blank" rel="noopener">收费</a> 可以参考 GitHub Actions 的 Wiki 。</p>
+<h3 id="部署操作-1"><a href="#部署操作-1" class="headerlink" title="部署操作"></a>部署操作</h3><p>废话不多说，赶紧看看如何使用。</p>
+<p>首先我们要生成一个 SSH 密钥，方便 GitHub Action 上传网页目录到我们的 repository 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+
+<p>将<strong>公钥</strong>添加到存放网页目录的 GitHub 账号「Settings - SSH and GPG keys」内；将<strong>私钥</strong>添加到你博客源码仓库的「Settings - Secret」内，起一个名字，例如我让他叫 <code>HEXO_DEPLOY_KEY</code> 。</p>
+<p>之后就是新建一个 Workflow。点击 GitHub 仓库控制栏中的 <code>Actions</code>，选择新建一个，并将下面的代码<strong>替换掉</strong>原来的代码。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213204458.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">name: Hexo Deploy Automatically</span><br><span class="line"></span><br><span class="line">on: [push]</span><br><span class="line"></span><br><span class="line">jobs:</span><br><span class="line">  build:</span><br><span class="line"></span><br><span class="line">    runs-on: ubuntu-latest</span><br><span class="line">    </span><br><span class="line">    steps:</span><br><span class="line">    - name: Checkout</span><br><span class="line">      uses: actions&#x2F;checkout@v2</span><br><span class="line">      </span><br><span class="line">    - name: Node.js envs</span><br><span class="line">      uses: actions&#x2F;setup-node@v1</span><br><span class="line">      with:</span><br><span class="line">        node-version: &quot;10.x&quot;</span><br><span class="line">    </span><br><span class="line">    - name: Hexo deploy</span><br><span class="line">      env:</span><br><span class="line">        HEXO_DEPLOY_KEY: $&#123;&#123; secrets.HEXO_DEPLOY_KEY &#125;&#125;</span><br><span class="line">      run: |</span><br><span class="line">        mkdir -p ~&#x2F;.ssh&#x2F;</span><br><span class="line">        echo &quot;$HEXO_DEPLOY_KEY&quot; &gt; ~&#x2F;.ssh&#x2F;id_rsa</span><br><span class="line">        chmod 600 ~&#x2F;.ssh&#x2F;id_rsa</span><br><span class="line">        ssh-keyscan github.com &gt;&gt; ~&#x2F;.ssh&#x2F;known_hosts</span><br><span class="line">        git config --global user.name &quot;Your GitHub UserName&quot;</span><br><span class="line">        git config --global user.email &quot;you@example.com&quot;</span><br><span class="line">        npm i -g hexo-cli</span><br><span class="line">        npm i</span><br><span class="line">        hexo clean &amp;&amp; hexo generate &amp;&amp; hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>这份代码究竟在做什么：</p>
+<ul>
+<li>最上方 <code>name</code> 是整个 workflow 的名字；紧接着的 <code>on</code> 参数指的是触发调节，比如我们这里使用 <code>push</code> 来触发，每次监测到仓库被 <code>push</code> 了就运行此 workflow。</li>
+<li>接下来就是 jobs 。我创建一个名为 <code>build</code> 的 job，<code>runs-no</code>（运行在）最新版的 ubuntu 系统里。</li>
+<li>里面的 steps（步骤）有：<code>checkout</code> 引入调用自身仓库的插件；<code>Node.js envs</code> 调用 Node.js 搭建环境；<code>Hexo deploy</code> 网页部署。</li>
+</ul>
+<p><strong>将代码中的部分信息更新为自己的</strong>，就可以尝试更新 push 一下了！</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213204511.PNG?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>最「原生」的支持，实在慷慨的计算资源，（几乎）可以忽略的限制。这些，都或许是你选择 GitHub Actions 的理由。</p>
+<p>虽说是持续集成，实则是用完即毁。所以每次都是崭新的环境，需要重新安装各项依赖。只不过这些都不用本地执行，第一次配置好了之后也完全不用再操心。</p>
+<p>每次 push 完后需要大概十几秒的等待才能部署（个人感觉还是快于 Netlify），debug 也还是建议先在本地调试再上传。</p>
+<p>至于 GitHub Actions 的使用细节还请参考 <a href="https://help.github.com/en/actions" target="_blank" rel="noopener">官方文档</a> 。</p>
+<h2 id="Travis-CI"><a href="#Travis-CI" class="headerlink" title="Travis CI"></a>Travis CI</h2><p>和 GitHub Actions 类似，Travis CI 也提供持续集成服务。同时 Travis CI 还是同类型服务商中市场份额最高的，在 GitHub Actions 诞生之前一直是最受欢迎的持续集成服务商（之后或许也是）。</p>
+<p>目前 Travis CI 只面向 GitHub 提供服务，也就是说只有将代码托管到 GitHub 仓库才能享受到 Travis CI 提供的服务。</p>
+<p>GitHub Actions 所有 workflow 都是以文件的形式保存的，Travis CI 也是如此。Travis CI 会根据<strong>根目录</strong>下的 <code>.travis.yml</code> 来执行相应工作流。</p>
+<p>一个 Travis 完整的工作流程包括：</p>
+<ol>
+<li>language（设置环境）</li>
+<li>before_install</li>
+<li>install</li>
+<li>before_script</li>
+<li>script</li>
+<li>aftersuccess or afterfailure</li>
+<li>[OPTIONAL] before_deploy</li>
+<li>[OPTIONAL] deploy</li>
+<li>[OPTIONAL] after_deploy</li>
+<li>after_script</li>
+</ol>
+<p>都是使用命令执行，只不过不同流程中对于命令之间的逻辑关系处理的不太一样。</p>
+<p>如 <code>install</code> 类中有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">install: </span><br><span class="line">  - command 1</span><br><span class="line">  - command 2</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>command 1</code> 失败后整个构建就会停下来，<code>command 2</code> 也就不再执行。</p>
+<p>而对于 <code>script</code> 一类的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">script: </span><br><span class="line">  - command 1</span><br><span class="line">  - command 2</span><br></pre></td></tr></table></figure>
+
+<p> 就算 <code>command 1</code> 失败，<code>command 2</code> 也会继续执行。但是整个构建状态还是会返回失败。</p>
+<h3 id="部署步骤"><a href="#部署步骤" class="headerlink" title="部署步骤"></a>部署步骤</h3><p>我们前往 <a href="https://travis-ci.org" target="_blank" rel="noopener">Travis CI 官网</a> 使用 GitHub 账号登陆，根据提示授权。</p>
+<p>出于安全考量，GitHub 肯定不会允许一个陌生容器将内容推送到自己的仓库中。我们需要使用一种特殊的手段给 Travis CI 授权——Access Token   。Access Token 可以理解为一个口令，当 Travis CI 使用这个口令和 GitHub 对接的时候，GitHub   就能知道是否应该给予 Travis CI 权限以及应开放哪些权限。</p>
+<p>在 GitHub 账号中「Settings - Developer settings - Personal access tokens」中新建一个 token 。注意这里的 token 应考虑一下是否需要保存下来，token 只会出现一次！</p>
+<p>之后回到 Travis CI，选择添加仓库，将博客源码的仓库对应按钮点亮，并点击后面的 <code>settings</code> 进入更深入的设置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213232311.PNG?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<p>这里的 <code>Environment Variables</code> ，类似 GitHub 中的 <code>secret</code> ，可以保存一些不便公开的参数，如 Access Token 等，方便仓库开源和后续的调用。如果不想公开 GitHub 的用户名和邮箱，也可以在放入这里。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200213232310.PNG?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<p>然后是配置 <code>.travis.yml</code> 文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">language: node_js</span><br><span class="line"></span><br><span class="line">node_js:</span><br><span class="line">  - lts&#x2F;*</span><br><span class="line"></span><br><span class="line">cache:</span><br><span class="line">  directories:</span><br><span class="line">    - node_modules</span><br><span class="line"></span><br><span class="line">before_install:</span><br><span class="line">  - npm i -g hexo-cli</span><br><span class="line">  </span><br><span class="line">install:  </span><br><span class="line">  - npm i</span><br><span class="line">  - npm i -S hexo-deployer-git</span><br><span class="line"></span><br><span class="line">script:</span><br><span class="line">  - hexo clean</span><br><span class="line">  - hexo generate</span><br><span class="line"></span><br><span class="line">after_script:</span><br><span class="line">  - git config --global user.name &quot;$&#123;GH_Name&#125;&quot;</span><br><span class="line">  - git config --global user.email &quot;$&#123;GH_Email&#125;&quot;</span><br><span class="line">  - sed -i &#39;s&#x2F;git@github.com&#x2F;https:&#x2F;&#x2F;$&#123;HEXO_DEPLOY_TOKEN&#125;@github.com&#x2F;g&#39; .&#x2F;_config.yml </span><br><span class="line">  #如果配置文件中是使用 https 推送的，则上述命令改为：</span><br><span class="line">  #- sed -i &#39;s&#x2F;github.com&#x2F;$&#123;HEXO_DEPLOY_TOKEN&#125;@github.com&#x2F;g&#39; .&#x2F;_config.yml </span><br><span class="line">  - hexo deploy</span><br><span class="line"></span><br><span class="line">branches:</span><br><span class="line">  only:</span><br><span class="line">    - master</span><br></pre></td></tr></table></figure>
+
+<p>代码也不难理解。最上方为设置在 <code>Node.js</code> 环境下运行，并且设置为获取最新版本的 <code>Node.js</code> 。由于 <code>node_modules</code> 目录体积较大且后期维护时修改频率很低，所以我们将其缓存以加快更新速度。再往下就是正常的安装和部署命令了。</p>
+<h3 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h3><p>Travis CI 老牌且强大，可就我短时间体验来看感觉不如 GitHub Actions 来的那般方便。而且 Travis CI 仅支持公开的仓库，如果想在私有仓库上也启用则需要购买 <a href="https://travis-ci.com/plans" target="_blank" rel="noopener">商业版</a>（前 100 次试用免费，价格略贵）。也算是一种方案，只是已经不是很推荐了。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>Netlify 适合不愿在配置上花费太多功夫的用户，我在这里也近乎将其部署流程每一步都提及了。确实，放到一起来看 Netlify 学习成本几乎为零，任何人都能立马上手。</p>
+<p>GitHub Actions 和 Travis CI 则需要一定的代码能力（一点点就好），能够理解 Workflow 便能很快的构建好自己的工作流。</p>
+<p>如果再进一步，设置一个十分简单的推送脚本（<code>go.sh</code>）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;Well done. Keep going!&quot;</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;$1&quot;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<p>那一切的一切都只需要 <code>sh go.sh &quot;commit message&quot;</code> 一行解决。</p>
+<p>但这些方案终究只是减少你在重复行为上花费的时间，让你能够集中精力在更有意义的事情上。<strong>最重要的还是赶紧把你的 Ideas 记下来、说出来，让更多的人了解你的想法</strong>。希望你能有所收获！</p>
+<p>(Ended, thanks for reading! )</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">This article was last updated on <span id="date-expire-num"></span> days ago, and the information described in the article may have changed.</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-02-28");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">Published at&nbsp;<time datetime="2020-02-14T14:10:12.000Z" itemprop="datePublished">2020-02-14</time>
+
+    , Updated at&nbsp;<time datetime="2020-02-28T13:01:40.608Z" itemprop="dateModified">2020-02-28</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E7%AC%94%E8%AE%B0%E6%9C%AC/'>笔记本</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Hexo/" rel="tag">#&nbsp;Hexo</a>
+
+<a class="post-tags-list-item" href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" rel="tag">#&nbsp;自动化</a>
+
+<a class="post-tags-list-item" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">#&nbsp;部署</a>
+
+<a class="post-tags-list-item" href="/tags/Github-Actions/" rel="tag">#&nbsp;Github Actions</a>
+
+<a class="post-tags-list-item" href="/tags/Netlify/" rel="tag">#&nbsp;Netlify</a>
+
+<a class="post-tags-list-item" href="/tags/Travis-CI/" rel="tag">#&nbsp;Travis CI</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/post/build-an-online-ide-by-jupyter-notebook/" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">搭建一个在线 IDE，Jupyter Notebook 帮你快速构建</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://test.ichr.ml">ChrAlpha 的实验室</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.3 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>

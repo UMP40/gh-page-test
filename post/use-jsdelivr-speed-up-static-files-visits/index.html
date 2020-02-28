@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>jsDelivr | 免费加速图片等网站静态资源 | ChrAlpha 的实验室</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/img/suka-favicon.ico">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+
+
+
+    <!-- Prettify Theme -->
+    
+    <link rel="preload" href="/css/highlight/github.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/css/highlight/github.min.css"></noscript>
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="ChrAlpha 的实验室"><meta name="msapplication-starturl" content="https://test.ichr.ml"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ChrAlpha 的实验室"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="jsDelivr | 免费加速图片等网站静态资源 | ChrAlpha 的实验室"><meta property="og:site_name" content="ChrAlpha 的实验室"><meta property="og:type" content="article"><meta property="og:url" content="https://test.ichr.ml/post/use-jsdelivr-speed-up-static-files-visits/"><meta property="og:locale" content="en"><meta name="description" content="由于一些众所周知的原因，GitHub 等库在大陆的访问速度一直不是很理想，那有没有什么低成本的方案，来加速这些静态资源的访问速度呢？ jsDelivr 就是一直做的非常出色的一家，这里介绍如何使用免费的 jsDelivr 加速网站！ - ChrAlpha - ChrAlpha 的实验室"><meta name="keywords" content="加速, CDN, 图床, jsDelivr, github, picgo, 图片, 免费, 教程, 使用, 配置"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200130145232.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20191201143642.png"><meta property="article:published_time" content="2019-12-01T05:30:14.000Z"><meta property="article:modified_time" content="2020-02-28T12:57:59.159Z"><meta property="og:updated_time" content="2020-02-28T12:57:59.159Z"><meta property="article:author" content="ChrAlpha"><meta property="article:tag" content="加速, CDN, 图床, jsDelivr, github, picgo, 图片, 免费, 教程, 使用, 配置"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200130145232.png">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://test.ichr.ml/post/use-jsdelivr-speed-up-static-files-visits/">
+
+    <meta name="generator" content="Hexo 4.2.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://test.ichr.ml/post/use-jsdelivr-speed-up-static-files-visits/",
+    "@type": "BlogPosting",
+    "logo": "https://test.ichr.ml/img/suka-favicon.ico",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://test.ichr.ml/post/use-jsdelivr-speed-up-static-files-visits/"
+    },
+    "headline": "jsDelivr | 免费加速图片等网站静态资源 | ChrAlpha 的实验室",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200130145232.png"
+    },
+    
+    "datePublished": "2019-12-01T05:30:14.000Z",
+    "dateModified": "2020-02-28T12:57:59.159Z",
+    "author": {
+        "@type": "Person",
+        "name": "ChrAlpha",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/default_avatar.png"
+        },
+        "description": "Only for test."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "ChrAlpha 的实验室",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/suka-favicon.ico"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://test.ichr.ml/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "加速, CDN, 图床, jsDelivr, github, picgo, 图片, 免费, 教程, 使用, 配置",
+    "description": "由于一些众所周知的原因，GitHub 等库在大陆的访问速度一直不是很理想，那有没有什么低成本的方案，来加速这些静态资源的访问速度呢？ jsDelivr 就是一直做的非常出色的一家，这里介绍如何使用免费的 jsDelivr 加速网站！ - ChrAlpha - ChrAlpha 的实验室"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">ChrAlpha 的实验室</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                Only for test.
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">Home</a>
+    
+    
+        <a href="/archives/" class="navbar-link">Archives</a>
+    
+    
+        <a href="/search" class="navbar-link">Search</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">Share</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=ChrAlpha 的实验室&url=https://test.ichr.ml&pic=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200130145232.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=ChrAlpha 的实验室&url=https://test.ichr.ml&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml&title=jsDelivr | 免费加速图片等网站静态资源" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=jsDelivr | 免费加速图片等网站静态资源&summary=&pics=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200130145232.png&url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://test.ichr.ml&text=jsDelivr | 免费加速图片等网站静态资源" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACLElEQVR42u3awY6DMAyEYd7/pbenvcWemcCqbPxzqVoa+JBw5Ni5fv7BcYEECRLkC5BXc/yer/5bnV99X43r7gtyNnL50i5+7266Ald4974gZyPTgKnwFap6iPa+IEEu/rwKliqQVvDuuiBBPo3sAqcDgQTpIKuJV120OqcSj0ezIJDHIZ2F2F98Pr5aBHkEUhaNxMXVxO4GzK2qGsijkNWivQqiKhA6YPUgcuIHORK5GqguqsamyUl1bZAzkfYAMUF3Y7oCQnt9kCORagGlEmLnexKcIEG6jcouiByIiy8TDJCjkMnk6xT2VQPeWbiBnIvcSSiSgulOQwrkbKQKGHfDkdNwUsUGkCCTlzhNWu9srgM5G5kksOqFTyZ2a7MJyJFIZ8DOoqqb/FUzHiRImXyKAFDJhWqublXVQB6N3IWoyT5pTlnRDXIE0m2qJ43L5KG64AIJMk0qkgQ3KSyABKle+KoJ3523mu7NIgzkXKTTfO82haTN0dtdWpDHI5MAaF9ykSS7Df42ukGOQCYFVKdo4Iy3F2wgxyPTZEBtqEsSF6tgBXIEstvAmTY2XaizYRTkXKQ60g1H3SYRJ0m2oxvksUi1COsWZqoIoAISJEinYJUUVFVCazU5d4qoIEcg3QQjfRA3ybALViDHI1Uz1NkwkhQeQIJ0kC6kapQ6icWtyRzkkUi3aJU0mJzf2yItyLFItRBTm0PUIs5pZsVVNZDHIt98gAQJEuQXjw+J7nXkChB6UQAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+            <div class="card-image lazyload" data-bg="url('https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200130145232.png')"></div>
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">jsDelivr | 免费加速图片等网站静态资源</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/img/default_avatar.png" src="/img/suka-lazyload.gif" alt="ChrAlpha's Avatar">
+        <span>2019-12-01</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E4%BE%BF%E7%AD%BE%E6%A0%BC/">便签格</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">Share the post</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=jsDelivr | 免费加速图片等网站静态资源&url=https://test.ichr.ml/post/use-jsdelivr-speed-up-static-files-visits/&pic=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200130145232.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=jsDelivr | 免费加速图片等网站静态资源&url=https://test.ichr.ml/post/use-jsdelivr-speed-up-static-files-visits/&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml/post/use-jsdelivr-speed-up-static-files-visits/" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://test.ichr.ml/post/use-jsdelivr-speed-up-static-files-visits/" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml/post/use-jsdelivr-speed-up-static-files-visits/&title=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=ChrAlpha 的实验室&summary=&pics=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200130145232.png&url=https://test.ichr.ml/post/use-jsdelivr-speed-up-static-files-visits/" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://test.ichr.ml/post/use-jsdelivr-speed-up-static-files-visits/&text=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACLElEQVR42u3awY6DMAyEYd7/pbenvcWemcCqbPxzqVoa+JBw5Ni5fv7BcYEECRLkC5BXc/yer/5bnV99X43r7gtyNnL50i5+7266Ald4974gZyPTgKnwFap6iPa+IEEu/rwKliqQVvDuuiBBPo3sAqcDgQTpIKuJV120OqcSj0ezIJDHIZ2F2F98Pr5aBHkEUhaNxMXVxO4GzK2qGsijkNWivQqiKhA6YPUgcuIHORK5GqguqsamyUl1bZAzkfYAMUF3Y7oCQnt9kCORagGlEmLnexKcIEG6jcouiByIiy8TDJCjkMnk6xT2VQPeWbiBnIvcSSiSgulOQwrkbKQKGHfDkdNwUsUGkCCTlzhNWu9srgM5G5kksOqFTyZ2a7MJyJFIZ8DOoqqb/FUzHiRImXyKAFDJhWqublXVQB6N3IWoyT5pTlnRDXIE0m2qJ43L5KG64AIJMk0qkgQ3KSyABKle+KoJ3523mu7NIgzkXKTTfO82haTN0dtdWpDHI5MAaF9ykSS7Df42ukGOQCYFVKdo4Iy3F2wgxyPTZEBtqEsSF6tgBXIEstvAmTY2XaizYRTkXKQ60g1H3SYRJ0m2oxvksUi1COsWZqoIoAISJEinYJUUVFVCazU5d4qoIEcg3QQjfRA3ybALViDHI1Uz1NkwkhQeQIJ0kC6kapQ6icWtyRzkkUi3aJU0mJzf2yItyLFItRBTm0PUIs5pZsVVNZDHIt98gAQJEuQXjw+J7nXkChB6UQAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CDN-简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">CDN 简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jsDelivr"><span class="post-toc-number">2.</span> <span class="post-toc-text">jsDelivr</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基础使用"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">基础使用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#加速图床"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">加速图床</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#尾巴"><span class="post-toc-number">3.</span> <span class="post-toc-text">尾巴</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <p>由于一些众所周知的原因，GitHub 在大陆的访问速度一直不是很理想，如果你也像我一样将博客，图床等放在 GitHub 托管的话，很可能会有同学投诉访问速度，特别是初次打开的时候，速度着实堪忧。那有没有什么低成本的方案，来加速我们的网站打开速度呢？当然是有的。</p>
+<a id="more"></a>
+
+<hr>
+<h3 id="CDN-简介"><a href="#CDN-简介" class="headerlink" title="CDN 简介"></a>CDN 简介</h3><blockquote>
+<p><strong>内容分发网络</strong>（英语：<strong>C</strong>ontent <strong>D</strong>elivery <strong>N</strong>etwork或<strong>C</strong>ontent <strong>D</strong>istribution <strong>N</strong>etwork，缩写：<strong>CDN</strong>）是指一种透过<a href="https://zh.wikipedia.org/wiki/互聯網" target="_blank" rel="noopener">互联网</a>互相连接的电脑网络系统，利用最靠近每位用户的服务器，更快、更可靠地将音乐、图片、影片、应用程序及其他文件发送给用户，来提供高性能、可扩展性及低成本的网络内容传递给用户。</p>
+<p>—— <a href="https://zh.wikipedia.org/wiki/%E5%85%A7%E5%AE%B9%E5%82%B3%E9%81%9E%E7%B6%B2%E8%B7%AF" target="_blank" rel="noopener">Wikipedia</a> </p>
+</blockquote>
+<p>简而言之就是让服务器距离大陆较远的 GitHub ，将托管在那里的<strong>静态</strong>资源缓存到一个近一点的服务器，从而加快访问。</p>
+<p>看了这样的解释你应该能够理解，CDN 虽然能缓解互联压力，可也是要耗费一定的资源的，从而市面上的 CDN 大多是收费的。Cloudflare 虽然有免费 CDN ，可是国内节点致开放给专业版用户使用，价格偏高，而海外的节点又类似<strong>负优化</strong>，可能还会降低速度。</p>
+<h3 id="jsDelivr"><a href="#jsDelivr" class="headerlink" title="jsDelivr"></a>jsDelivr</h3><p><a href="https://www.jsdelivr.com/" target="_blank" rel="noopener">jsDelivr</a> 是一款公共免费 CDN ，调用多家 CDN 保证全球服务质量、拥有多层缓存和灾后保障 SLA 100 。也是为数不多的有 ICP 备案，提供许多中国节点的海外 CDN 服务商。</p>
+<h4 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h4><p>其实 jsDelivr 的使用非常简单——直接发布个 Release 就能用了。</p>
+<p>如托管在 GitHub 的仓库链接都是 <code>https://github.com/username/repo/branch/file</code> 的形式，而我们就可以将前面的 <code>github.com</code> 改成 jsDelivr 提供加速 GitHub 仓库的域名 <code>cdn.jsdelivr.net/gh</code> 。</p>
+<p>嗯，兴冲冲配置一发，发现什么都没有？其实还是有一点点小差别的。比如分支那里，jsDelivr 默认要直接在仓库名后面 <code>@</code> ，所以真正其实是 <code>https://cdn.jsdelivr.net/gh/username/repo@branch/file</code> 的形式。当然，如果你放在仓库的默认分支，还可以直接将 <code>branch</code> 这个关键字直接删了，变成 <code>https://cdn.jsdelivr.net/gh/username/repo/file</code> 一样能获取到！</p>
+<p>另外，如果是一些比较稳定的文件，后面不会频繁地改动，还可以发布成一个版本，然后在 <code>repo</code> 后 <code>@version</code> 就可以引用对应的版本。</p>
+<h4 id="加速图床"><a href="#加速图床" class="headerlink" title="加速图床"></a>加速图床</h4><p>如果你还记得笔者之前写的 <strong>PicGo + GitHub 搭建免费图床</strong> 的话，不难发现 jsDelivr 也是能加速这个图床（本质不还是一个 GitHub 仓库嘛）的。我们只需要在 <strong>GitHub 图床设置</strong> 中将链接设置为 <code>https://cdn.jsdelivr.net/gh/username/repo</code> 即可！前提是你上传到默认分支。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20191201143642.png" alt=""></p>
+<ul>
+<li>关联阅读：<a href="/post/free-img-hosting-with-github-and-picgo/">ChrAlpha - PicGo + GitHub 搭建免费图床</a> </li>
+</ul>
+<h3 id="尾巴"><a href="#尾巴" class="headerlink" title="尾巴"></a>尾巴</h3><p>这么好的东西，还是有一点限制的。比如单个文件最大不能超过 20M ，但是不限制流量。这 20M 你甚至能来加速一个小视频……</p>
+<p>其实还可以加速博客的主题配置，js/css 文件，图标，头像等，从而加速博客的访问速度，比如我的博客在加上 CDN 后访问速度一度从 2s 左右降低到 0.8s ，体验自然是上去了。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">This article was last updated on <span id="date-expire-num"></span> days ago, and the information described in the article may have changed.</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-02-28");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">Published at&nbsp;<time datetime="2019-12-01T05:30:14.000Z" itemprop="datePublished">2019-12-01</time>
+
+    , Updated at&nbsp;<time datetime="2020-02-28T12:57:59.159Z" itemprop="dateModified">2020-02-28</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E4%BE%BF%E7%AD%BE%E6%A0%BC/'>便签格</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Free/" rel="tag">#&nbsp;Free</a>
+
+<a class="post-tags-list-item" href="/tags/CDN/" rel="tag">#&nbsp;CDN</a>
+
+<a class="post-tags-list-item" href="/tags/jsDelivr/" rel="tag">#&nbsp;jsDelivr</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+        <li class="page-item page-prev">
+            <a href="/post/google-analytics-cooperates-cloudflare-worker-to-manage-your-website-trafic/" rel="prev">
+                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">Cloudflare Worker 配合 Google Analytics 管理网站流量</div>
+            </a>
+        </li>
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/post/free-img-hosting-with-github-and-picgo/" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">GitHub + PicGo 免费图床搭建及使用教程</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://test.ichr.ml">ChrAlpha 的实验室</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.3 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>

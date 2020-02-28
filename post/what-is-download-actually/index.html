@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>浅谈「下载」行为 | ChrAlpha 的实验室</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/img/suka-favicon.ico">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+
+
+
+    <!-- Prettify Theme -->
+    
+    <link rel="preload" href="/css/highlight/github.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/css/highlight/github.min.css"></noscript>
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="ChrAlpha 的实验室"><meta name="msapplication-starturl" content="https://test.ichr.ml"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ChrAlpha 的实验室"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="浅谈「下载」行为 | ChrAlpha 的实验室"><meta property="og:site_name" content="ChrAlpha 的实验室"><meta property="og:type" content="article"><meta property="og:url" content="https://test.ichr.ml/post/what-is-download-actually/"><meta property="og:locale" content="en"><meta name="description" content="究竟什么是下载？HTTP 下载和 BT 下载有什么区别？他们是怎么实现的？这也许就是本文想讨论的。 - ChrAlpha - ChrAlpha 的实验室"><meta name="keywords" content="BT, BitTorrent, http, 下载, 磁力链接, DHT, P2P, 分享, 详解"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200131131316.jpg"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200131120034.gif"><meta property="article:published_time" content="2020-01-30T07:02:54.000Z"><meta property="article:modified_time" content="2020-02-28T12:57:58.925Z"><meta property="og:updated_time" content="2020-02-28T12:57:58.925Z"><meta property="article:author" content="ChrAlpha"><meta property="article:tag" content="BT, BitTorrent, http, 下载, 磁力链接, DHT, P2P, 分享, 详解"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200131131316.jpg">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://test.ichr.ml/post/what-is-download-actually/">
+
+    <meta name="generator" content="Hexo 4.2.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://test.ichr.ml/post/what-is-download-actually/",
+    "@type": "BlogPosting",
+    "logo": "https://test.ichr.ml/img/suka-favicon.ico",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://test.ichr.ml/post/what-is-download-actually/"
+    },
+    "headline": "浅谈「下载」行为 | ChrAlpha 的实验室",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200131131316.jpg"
+    },
+    
+    "datePublished": "2020-01-30T07:02:54.000Z",
+    "dateModified": "2020-02-28T12:57:58.925Z",
+    "author": {
+        "@type": "Person",
+        "name": "ChrAlpha",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/default_avatar.png"
+        },
+        "description": "Only for test."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "ChrAlpha 的实验室",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/suka-favicon.ico"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://test.ichr.ml/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "BT, BitTorrent, http, 下载, 磁力链接, DHT, P2P, 分享, 详解",
+    "description": "究竟什么是下载？HTTP 下载和 BT 下载有什么区别？他们是怎么实现的？这也许就是本文想讨论的。 - ChrAlpha - ChrAlpha 的实验室"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">ChrAlpha 的实验室</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                Only for test.
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">Home</a>
+    
+    
+        <a href="/archives/" class="navbar-link">Archives</a>
+    
+    
+        <a href="/search" class="navbar-link">Search</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">Share</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=ChrAlpha 的实验室&url=https://test.ichr.ml&pic=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200131131316.jpg&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=ChrAlpha 的实验室&url=https://test.ichr.ml&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml&title=浅谈「下载」行为" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=浅谈「下载」行为&summary=&pics=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200131131316.jpg&url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://test.ichr.ml&text=浅谈「下载」行为" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB3klEQVR42u3ay3KEMAxEUf7/pzPbqYrV3RpY2OKyyRtOqmQsybr+NrwuUKBAgVqgLnH9+6PFz1eff3/deQ6oOahl0BU3rB5Q3W8FLJ8DahSqCtLVQ1a/Y4M4WQygXoVSkHRxgALVRVQLAtQ7UdVG2b25ShAfyxJAbY9Sm+mTHx+rZkBtjbJNBxHArthUAX6r6wJqa1SnwEw/poEOaiYqCUYVuFXzrGqoqfuBmoFKm6hJY636J5LGCai5qLSZ6g4A3KKJmvugjkSphkQnYXNFa9UkkZknqCNRSTM/CdhfGmzR6gN1LKrTNOs0ZDuH56DmoFxRqRqryaacvkBBzUCp4O2+GBUkaryBGoNKA7ebxKnvx4UDqCNRySFjZ3NOi5ByQwZ1NCopNtOBVJfQ3UryQB2DSgtFBUg3YVt0gBqBUolXtwhNkPGBEaijUW4jTgck3OGRXUigRqE6gzXJBp0elIOajXKDDWnx2R3sATUL5a4E7RaF2uxvDZ+C2hLVeTGmw15u0CtucIA6FpUcQkaDfmGgP3YyCmprVDrQ5x6WbMitCQ5QI1HxTUVTViWJoN6LShogasO2hwigRqFUweAatC55iw+fQI1BuRekGwZMEjpXiIKag9rpAgUKFKiv6wMYMNDgMN627gAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+            <div class="card-image lazyload" data-bg="url('https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200131131316.jpg')"></div>
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">浅谈「下载」行为</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/img/default_avatar.png" src="/img/suka-lazyload.gif" alt="ChrAlpha's Avatar">
+        <span>2020-01-30</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">Share the post</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=浅谈「下载」行为&url=https://test.ichr.ml/post/what-is-download-actually/&pic=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200131131316.jpg&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=浅谈「下载」行为&url=https://test.ichr.ml/post/what-is-download-actually/&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml/post/what-is-download-actually/" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://test.ichr.ml/post/what-is-download-actually/" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml/post/what-is-download-actually/&title=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=ChrAlpha 的实验室&summary=&pics=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200131131316.jpg&url=https://test.ichr.ml/post/what-is-download-actually/" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://test.ichr.ml/post/what-is-download-actually/&text=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB3klEQVR42u3ay3KEMAxEUf7/pzPbqYrV3RpY2OKyyRtOqmQsybr+NrwuUKBAgVqgLnH9+6PFz1eff3/deQ6oOahl0BU3rB5Q3W8FLJ8DahSqCtLVQ1a/Y4M4WQygXoVSkHRxgALVRVQLAtQ7UdVG2b25ShAfyxJAbY9Sm+mTHx+rZkBtjbJNBxHArthUAX6r6wJqa1SnwEw/poEOaiYqCUYVuFXzrGqoqfuBmoFKm6hJY636J5LGCai5qLSZ6g4A3KKJmvugjkSphkQnYXNFa9UkkZknqCNRSTM/CdhfGmzR6gN1LKrTNOs0ZDuH56DmoFxRqRqryaacvkBBzUCp4O2+GBUkaryBGoNKA7ebxKnvx4UDqCNRySFjZ3NOi5ByQwZ1NCopNtOBVJfQ3UryQB2DSgtFBUg3YVt0gBqBUolXtwhNkPGBEaijUW4jTgck3OGRXUigRqE6gzXJBp0elIOajXKDDWnx2R3sATUL5a4E7RaF2uxvDZ+C2hLVeTGmw15u0CtucIA6FpUcQkaDfmGgP3YyCmprVDrQ5x6WbMitCQ5QI1HxTUVTViWJoN6LShogasO2hwigRqFUweAatC55iw+fQI1BuRekGwZMEjpXiIKag9rpAgUKFKiv6wMYMNDgMN627gAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HTTP-下载"><span class="post-toc-number">1.</span> <span class="post-toc-text">HTTP 下载</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#BitTorrent-下载"><span class="post-toc-number">2.</span> <span class="post-toc-text">BitTorrent 下载</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BitTorrent-协议"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">BitTorrent 协议</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DHT-技术"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">DHT 技术</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#磁力链接"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">磁力链接</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#后"><span class="post-toc-number">3.</span> <span class="post-toc-text">后</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <p>下载，是我们在互联网中都会接触到事情，每浏览一个页面，打开一个 App ，无不进行着「下载」这样的操作。而今天想讨论的，是纯粹下载本身，把一个文件下载下来。</p>
+<p>究竟什么是下载？HTTP 下载和 BT 下载有什么区别？他们是怎么实现的？这也许就是本文想讨论的。</p>
+<a id="more"></a>
+
+<h2 id="HTTP-下载"><a href="#HTTP-下载" class="headerlink" title="HTTP 下载"></a>HTTP 下载</h2><p>平时下载一个文件到本地，用 HTTP／FTP 进行文件传输，即与服务器建立连接后，将部分有权限的文件，传输到本地。平时接触到绝大部分下载都是这种行为。</p>
+<p>这是最简单的方法，可是有几个显而易见的问题。</p>
+<p>所有的资源全部在服务器上，如果服务器出事了，则所有服务全部失效（灾后保障？），所有文件都无法获取。</p>
+<p>服务器本身的带宽是有限的。打个比方，我想从服务器下载一个 80 GB 的文件，服务器端带宽是 10Gbps ，我家里的带宽是 500 Mbps，假如我家的带宽十分清真，那我应该在<strong>约为</strong> $\frac{80 \times 8 \ Gb}{500 \times 10^{-3} \ Gbps} = 1280 \ s$ 内下载完毕的，但全球许多小伙伴也在下载这个文件，由于我本地的带宽远不比服务器带宽，所以多一些下载也无妨，如同时有 100 个小伙伴在下载，此时就需要 $\frac{80 \times 8 \ Gb}{(10 \div 100) \ Gbps} = 6400 \ s$。但是要是多到一定程度时，比如 100,000 个人同时在下载，那平均每个人能够分到的带宽就只剩 $\frac{10 \ Gbps}{100,000} = 0.1 \ Mbps = 12.5 KB/s$ 则我需要等待超过 $\frac{80 \ GB}{12.5  \times 10^-6 \ GB/s} = 6.4 \times 10^6 \ s$ 。而通常对于一些热门资源，情况还可能会更糟。</p>
+<p>尽管如此，还属于「又不是不能用」的范畴。可万一这是敏感资源，导致被有关部门查封，删库，大家都没得下了。</p>
+<h2 id="BitTorrent-下载"><a href="#BitTorrent-下载" class="headerlink" title="BitTorrent 下载"></a>BitTorrent 下载</h2><h3 id="BitTorrent-协议"><a href="#BitTorrent-协议" class="headerlink" title="BitTorrent 协议"></a>BitTorrent 协议</h3><p>针对上述问题，美国的程序员 <a href="https://zh.wikipedia.org/wiki/布莱姆·科亨" target="_blank" rel="noopener">布莱姆·科亨</a> 于 2001 年 4 月时发布了一项协议——<strong>BitTorrent 协议</strong>，是在<strong>去中心化</strong>网络中的<strong>点对点</strong>（P2P, point-to-point）文件传输协议。</p>
+<p>BitTorrent 协议规定，资源不在由一个中心服务器提供，而是由所有人<strong>互相</strong>提供，最初的文件发布者将根据发布的文件生成一个 <code>.torrent</code> 文件，即 <a href="https://zh.wikipedia.org/wiki/%E7%A7%8D%E5%AD%90%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">BT 种子</a> 。BT 种子包含 Tracker 信息和文件信息。Tracker 是你询问应该向谁索要文件块的服务器，Tracker 信息包含该服务器的地址及其配置。文件信息则是根据要分享的文件进行 <a href="https://zh.wikipedia.org/wiki/Bencode" target="_blank" rel="noopener">Bencode</a> 编码后分成每块大小为 $2^k  \ （k \in N^*）$  的若干个虚拟文件分块，并将每个块的索引信息和 Hash 校验值保存下来。所以，如果文件是宝藏，则 BT 种子就是藏宝图，带领你获取宝藏。</p>
+<p>下载时，先将 BT 种子下载下来，然后连接种子中的 Tracker 服务器，并从 Tracker 服务器中询问到其他下载者的「联系方式」，然后再连接其他下载者，两人互相「摊牌」，交换仅一方拥有的分块。此时文件传输操作仅在两人之间进行，不再需要服务器参与，分散带宽压力。每下载完一个分块还会与 BT 种子中的 Hash 校验值对比，以检验文件准确性。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200131120034.gif" alt="From Wikipedia"></p>
+<h3 id="DHT-技术"><a href="#DHT-技术" class="headerlink" title="DHT 技术"></a>DHT 技术</h3><p>尽管 BT <em>包容开放</em>，但弱点也很容易看出来 —— Tracker 服务器。如果 Tracker 服务器被封禁，你将无法找到其他下载者，也从而无法下载。</p>
+<p>对此，又有人开发出 DHT 网络技术，可以降低对于 Tracker 的依赖。</p>
+<p>DHT 全称为分布式哈希表（Distributed Hash Table），在 DHT 网络中，每个人都是一个小型的路由，储存一部分信息。寻找地址只需要「人传人」即可。</p>
+<p>DHT 技术利用 <a href="https://zh.wikipedia.org/wiki/Kademlia" target="_blank" rel="noopener">Kademlia</a> 算法建图。在 DHT 网络里，每个节点 (用户) 都有一个独一无二的<strong>节点 ID</strong> ，由 40 个 16 进制数组成。节点 ID 与文件散列值直接对应。在 DHT 网络中，「距离」定义为两个节点 ID 二进制下按位异或（相同为 0，不同为 1）得到的结果。虽然此「距离」与空间上的距离毫无干系，但是由于异或，此「距离」满足一些几何性质，如 $A \rightarrow B = B \rightarrow A$ , $(A \rightarrow B) + (B \rightarrow C) \geq (A \rightarrow C)$ 等。</p>
+<p>在这之前，不论是 HTTP 还是 BT 协议，都离不开 TCP/IP 协议，你真正的地址都还是 IP 地址。但在这里，你的地址、文件地址都彻底变成一段 ID，这个 ID 有 $16^{40} = (2^4)^{40} = 2^{4 \times 40} = 2^{160}$ 这么多个（宇宙中所有原子的个数大概在 $2^{200}$ 这个量级，所以不用担心不够），也是通过它来避免许多无效的请求。</p>
+<p>每个节点都会维护一个<strong>路由表</strong>，列表存储一些必要信息，列表 ID 或 IP 地址等。建表等时候，该哈希表实际上是一棵<strong>完全二叉树</strong>（例如左儿子往后添 “0”，右儿子往后添 “1”）叶子结点即为所有 ID 。</p>
+<p>从当前根节点二分，将不包含该节点的子树全部放进一个列表，也叫 <strong>K 桶</strong>中，并维护该桶的「距离」取值区间，且该区间一定是离散铺满的。</p>
+<p>且第 $i$ 个桶的从后往前数第 $i$ 位一定与该结点本身的第 $i$ 位不同，而从后往前数的前 $i-1$ 位相同（具体根据哈希树构建的方式）。</p>
+<p>任选取一个作为参照，都可以在 $O(logN)$ 的最坏复杂度内找到目标结点。</p>
+<p>而且 K 桶是动态更新的，任何结点 ($ \leq 50\  % $) 失效不会引起网络功能丧失。</p>
+<h3 id="磁力链接"><a href="#磁力链接" class="headerlink" title="磁力链接"></a>磁力链接</h3><p>有了 DHT 网络，我们就可以通过文件 ID 这样的统一资源名称，通过人传人的方式找到目标文件，中途（可以）完全不需要 Tracker 服务器的协助。</p>
+<p>例如下面的 BTIH (BitTorrent Info Hash) 就是磁力链接的一种，除去开头的 <code>magnet</code>, <code>xt</code>, <code>urn</code>, <code>btih</code> 这些标准格式外，后面就是那个 40 位的 16 进制数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magnet:?xt&#x3D;urn:btih:31D6CFE0D16AE931B73C59D7E0C089C0A0839C82</span><br></pre></td></tr></table></figure>
+
+<p>通过这段 ID ，就可以在 DHT 网络中接近目标文件，逐步完成交换。</p>
+<p>这样，当你想分享一个文件，只需要分享一个 40 位的数字，足够方便、隐私。</p>
+<h2 id="后"><a href="#后" class="headerlink" title="后"></a>后</h2><p>BT 等去中心化下载模式的不可控性，导致其被垄断信息资源和监控用户行为的个人、组织、企业和政府拒之门外；更何况 HTTP 下载足够<em>傻瓜式</em>，容易操控，是目前最主流的下载方式。</p>
+<p>可是回顾一下 HTTP 的弱点：</p>
+<ol>
+<li>对主服务器的过度依赖</li>
+<li>带宽有限（下载者越多越慢）</li>
+</ol>
+<p>面对这种弱点和不同需求，催生了 BitTorrent 协议，它不依赖于中心服务器，随着下载者的增加还会使其速度更快，更加强大。</p>
+<p>而一次次的更迭，完善了这样一个抗封锁、抗追踪的下载网络，使得许多内容有机会避开审查。也许服务器可以被攻击、被查封，但种子不行。只要种子还在，那些<em>不存在</em>的资源就会一直活着，永远。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">This article was last updated on <span id="date-expire-num"></span> days ago, and the information described in the article may have changed.</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-02-28");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">Published at&nbsp;<time datetime="2020-01-30T07:02:54.000Z" itemprop="datePublished">2020-01-30</time>
+
+    , Updated at&nbsp;<time datetime="2020-02-28T12:57:58.925Z" itemprop="dateModified">2020-02-28</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%80%E6%9C%AF%E5%90%91/'>技术向</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/%E4%B8%8B%E8%BD%BD/" rel="tag">#&nbsp;下载</a>
+
+<a class="post-tags-list-item" href="/tags/BT/" rel="tag">#&nbsp;BT</a>
+
+<a class="post-tags-list-item" href="/tags/DHT/" rel="tag">#&nbsp;DHT</a>
+
+<a class="post-tags-list-item" href="/tags/%E7%A3%81%E5%8A%9B%E9%93%BE%E6%8E%A5/" rel="tag">#&nbsp;磁力链接</a>
+
+<a class="post-tags-list-item" href="/tags/HTTP/" rel="tag">#&nbsp;HTTP</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+        <li class="page-item page-prev">
+            <a href="/post/proxy-and-reverse-proxy/" rel="prev">
+                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">Proxy Server | 正向代理与反向代理</div>
+            </a>
+        </li>
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/post/subscribe-rss-more-variously/" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">利用 RSSHub 拓展你的 RSS 订阅</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://test.ichr.ml">ChrAlpha 的实验室</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.3 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>

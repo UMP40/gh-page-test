@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>V2ray + CDN 稳定看世界 | ChrAlpha 的实验室</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/img/suka-favicon.ico">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+
+
+
+    <!-- Prettify Theme -->
+    
+    <link rel="preload" href="/css/highlight/github.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/css/highlight/github.min.css"></noscript>
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="ChrAlpha 的实验室"><meta name="msapplication-starturl" content="https://test.ichr.ml"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ChrAlpha 的实验室"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="V2ray + CDN 稳定看世界 | ChrAlpha 的实验室"><meta property="og:site_name" content="ChrAlpha 的实验室"><meta property="og:type" content="article"><meta property="og:url" content="https://test.ichr.ml/outlook/get-a-stable-outlook-through-v2ray-and-cdn/"><meta property="og:locale" content="en"><meta name="description" content="最近墙一直「居高不下」，许多扶梯提供商已经坚持不住。但有些人还真是有访问外网需求，包括笔者自己。这里记录下一种（或许）能坚持更久的代理方式，尽可能维持大家的上网体验。顺便免费分享几个笔者自己搭建的节点，直到这段时期过去。 - ChrAlpha - ChrAlpha 的实验室"><meta name="keywords" content="v2ray, ssr, ss, shadowsocks, 节点, 免费, cdn, cloudflare, 搭建, 教程"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200205234717.jpg"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200205135228.jpg"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200205235440.jpg"><meta property="article:published_time" content="2020-02-05T02:17:01.000Z"><meta property="article:modified_time" content="2020-02-28T12:59:40.971Z"><meta property="og:updated_time" content="2020-02-28T12:59:40.971Z"><meta property="article:author" content="ChrAlpha"><meta property="article:tag" content="v2ray, ssr, ss, shadowsocks, 节点, 免费, cdn, cloudflare, 搭建, 教程"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://test.ichr.ml/outlook/get-a-stable-outlook-through-v2ray-and-cdn/">
+
+    <meta name="generator" content="Hexo 4.2.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://test.ichr.ml/outlook/get-a-stable-outlook-through-v2ray-and-cdn/",
+    "@type": "BlogPosting",
+    "logo": "https://test.ichr.ml/img/suka-favicon.ico",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://test.ichr.ml/outlook/get-a-stable-outlook-through-v2ray-and-cdn/"
+    },
+    "headline": "V2ray + CDN 稳定看世界 | ChrAlpha 的实验室",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://test.ichr.ml/img/suka-favicon.ico"
+    },
+    
+    "datePublished": "2020-02-05T02:17:01.000Z",
+    "dateModified": "2020-02-28T12:59:40.971Z",
+    "author": {
+        "@type": "Person",
+        "name": "ChrAlpha",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/default_avatar.png"
+        },
+        "description": "Only for test."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "ChrAlpha 的实验室",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/suka-favicon.ico"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://test.ichr.ml/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "v2ray, ssr, ss, shadowsocks, 节点, 免费, cdn, cloudflare, 搭建, 教程",
+    "description": "最近墙一直「居高不下」，许多扶梯提供商已经坚持不住。但有些人还真是有访问外网需求，包括笔者自己。这里记录下一种（或许）能坚持更久的代理方式，尽可能维持大家的上网体验。顺便免费分享几个笔者自己搭建的节点，直到这段时期过去。 - ChrAlpha - ChrAlpha 的实验室"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">ChrAlpha 的实验室</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                Only for test.
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">Home</a>
+    
+    
+        <a href="/archives/" class="navbar-link">Archives</a>
+    
+    
+        <a href="/search" class="navbar-link">Search</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">Share</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=ChrAlpha 的实验室&url=https://test.ichr.ml&pic=https://test.ichr.ml/img/suka-favicon.ico&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=ChrAlpha 的实验室&url=https://test.ichr.ml&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml&title=V2ray + CDN 稳定看世界" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=V2ray + CDN 稳定看世界&summary=&pics=https://test.ichr.ml/img/suka-favicon.ico&url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://test.ichr.ml&text=V2ray + CDN 稳定看世界" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACKklEQVR42u3ay3aDMAxFUf7/p9tJBlkU6x5B2qToMKF5st0VG1nS9vUPjk2kSJEiPwC5FcfhBx/P78+r9+6/7/mcrityLrLCrN6zwq5Qz6/h64ocjax+4EcXOXpMBt4alEiRAJk+d/V1kSIpcv8aChAWgxIpkiBJALEKDo4W+GpAL4+CRN4OWU2A3zy/bLco8lbImDQKyYJqof+zrJrIWyHTortCpCRCugmQBJlIkdXNPyWt6Mat+s4fj0WORaYfdAoKuhNn9bkYBYkchSSJeJKEqhbobgJW5Ewk2dR3kvSksIQTXiJHIs/c+KsNWSrYV0FHjIJEjkCmhThNHNowkoKZMsAQORpJN1AkyEiTJhX5Rc5E0oJngtAC52qQKMAQORZJGkJowj9t6KqNmci5yLSpogt42pSRImsrgyHytsgqodr5+2xioNXNInIEsjNxSPMSbWiKQbLIsUhSKKKThBRSqyZkkSJJsbIzycgmLW3GRIokwDRRzjScpIkpciaSJkE7C3wKbskmTORsJG0mokEJeS4VXUXORtKJQxOutGDaTuyLHIUsF1XYWEwLo7RZRKTItIm/WgygjXQiZyPTURXbSfGdJKuW/wyRI5GoARgmqlJioT1IkWOR5MvOBrbdYFqkyFQoqiZMtxk0NYugiphIkcVzpKGOJv8PBy5S5EUQvQmkSSZSZEq002aQqoETFz1FioQ3ftKYmcDd5KvImchPPkSKFCnyjcc3M5zVhCrUnLYAAAAASUVORK5CYII=" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">V2ray + CDN 稳定看世界</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/img/default_avatar.png" src="/img/suka-lazyload.gif" alt="ChrAlpha's Avatar">
+        <span>2020-02-05</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E5%88%86%E4%BA%AB%E9%9B%86/">分享集</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">Share the post</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=V2ray + CDN 稳定看世界&url=https://test.ichr.ml/outlook/get-a-stable-outlook-through-v2ray-and-cdn/&pic=https://test.ichr.ml/img/suka-favicon.ico&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=V2ray + CDN 稳定看世界&url=https://test.ichr.ml/outlook/get-a-stable-outlook-through-v2ray-and-cdn/&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml/outlook/get-a-stable-outlook-through-v2ray-and-cdn/" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://test.ichr.ml/outlook/get-a-stable-outlook-through-v2ray-and-cdn/" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml/outlook/get-a-stable-outlook-through-v2ray-and-cdn/&title=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=ChrAlpha 的实验室&summary=&pics=https://test.ichr.ml/img/suka-favicon.ico&url=https://test.ichr.ml/outlook/get-a-stable-outlook-through-v2ray-and-cdn/" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://test.ichr.ml/outlook/get-a-stable-outlook-through-v2ray-and-cdn/&text=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACKklEQVR42u3ay3aDMAxFUf7/p9tJBlkU6x5B2qToMKF5st0VG1nS9vUPjk2kSJEiPwC5FcfhBx/P78+r9+6/7/mcrityLrLCrN6zwq5Qz6/h64ocjax+4EcXOXpMBt4alEiRAJk+d/V1kSIpcv8aChAWgxIpkiBJALEKDo4W+GpAL4+CRN4OWU2A3zy/bLco8lbImDQKyYJqof+zrJrIWyHTortCpCRCugmQBJlIkdXNPyWt6Mat+s4fj0WORaYfdAoKuhNn9bkYBYkchSSJeJKEqhbobgJW5Ewk2dR3kvSksIQTXiJHIs/c+KsNWSrYV0FHjIJEjkCmhThNHNowkoKZMsAQORpJN1AkyEiTJhX5Rc5E0oJngtAC52qQKMAQORZJGkJowj9t6KqNmci5yLSpogt42pSRImsrgyHytsgqodr5+2xioNXNInIEsjNxSPMSbWiKQbLIsUhSKKKThBRSqyZkkSJJsbIzycgmLW3GRIokwDRRzjScpIkpciaSJkE7C3wKbskmTORsJG0mokEJeS4VXUXORtKJQxOutGDaTuyLHIUsF1XYWEwLo7RZRKTItIm/WgygjXQiZyPTURXbSfGdJKuW/wyRI5GoARgmqlJioT1IkWOR5MvOBrbdYFqkyFQoqiZMtxk0NYugiphIkcVzpKGOJv8PBy5S5EUQvQmkSSZSZEq002aQqoETFz1FioQ3ftKYmcDd5KvImchPPkSKFCnyjcc3M5zVhCrUnLYAAAAASUVORK5CYII=" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#V2ray-简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">V2ray 简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#搭建流程"><span class="post-toc-number">2.</span> <span class="post-toc-text">搭建流程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#VPS-购买"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">VPS 购买</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#连接-VPS"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">连接 VPS</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装-V2ray"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">安装 V2ray</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装宝塔面板"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">安装宝塔面板</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新建网站"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">新建网站</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#修改-V2ray-配置"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">修改 V2ray 配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装-BBR"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">安装 BBR</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#客户端配置"><span class="post-toc-number">3.</span> <span class="post-toc-text">客户端配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#节点分享"><span class="post-toc-number">4.</span> <span class="post-toc-text">节点分享</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <p>最近墙一直「居高不下」，许多扶梯提供商已经坚持不住。但有些人还真是有访问外网需求，包括笔者自己。这里记录下一种（或许）能坚持更久的代理方式，尽可能维持大家的上网体验。顺便免费分享几个笔者自己搭建的节点，直到这段时期过去。</p>
+<a id="more"></a>
+
+<p>如果你想更深入地了解「代理」，可以看我之前写的一片文章「<a href="/post/proxy-and-reverse-proxy/">Proxy Server | 正向代理与反向代理</a>」。这里就着重记录搭建方法。</p>
+<h2 id="V2ray-简介"><a href="#V2ray-简介" class="headerlink" title="V2ray 简介"></a>V2ray 简介</h2><p>V2ray 是 Project V. 团队开发的内核，使用自实现的 Vmess 协议和 mKCP 协议，和 Shadowsocks 一样是一种新型代理方式。但是更进一步，V2ray 支持更多的协议，更多的混淆。也让这种代理（某种程度上）能活得更久。</p>
+<p>但是我还是要来辟谣：并不是上了 V2ray 就真的能够骗过墙的眼睛，只不过能拖延一下而已，该做什么就做什么，不要整天想着怎么安全安全，规范自己的行为就好了。还有就是什么 <em>SS 已死</em> 的说法，稍微动动脑子好吗？就从我自己使用的经历来看，不论是机场还是自建主流都还是 Shadowsocks ，为什么？目前 V2ray 还是比较臃肿，占用大。我在同一台 VPS 上同是搭建了 SS 和V2ray，开启谷歌官方 BBR 拥堵控制算法，大陆南方联通／电信都有，晚上 11:30 ，SS 还能跑 50M，V2ray 只能跑 10M（全部是裸的跑）。而且 V2ray 的软件生态还是远不及 SS 的，客户端体验都不算良好。所以，不要见到 V2ray 就盲吹（当然也不能盲踩），就目前来讲，条件允许的话，我还是更愿意使用 SS。</p>
+<h2 id="搭建流程"><a href="#搭建流程" class="headerlink" title="搭建流程"></a>搭建流程</h2><p>一下操作可能需要一点动手能力，如果不愿折腾的同学可以考虑下 <a href="/outlook/n3ro.html">IPLC 专线机场</a> ，由于专线<strong>不过墙</strong>特性，非常时期也可用！</p>
+<h3 id="VPS-购买"><a href="#VPS-购买" class="headerlink" title="VPS 购买"></a>VPS 购买</h3><p>首先无论是 SS／V2ray 都是与服务端通过 某种协议 建立隧道连接后通过服务端代理客户端的流量，从而实现上网目的。所以我们要先购买可用的境外服务器。</p>
+<p>这里我不是很想推荐，大家按照自己习惯来。如果真的没有经验、或者不想淌主机圈这潭浑水的同学，可以尝试 <a href="https://www.vultr.com" target="_blank" rel="noopener">vultr</a> ，支持微信／支付宝付款，最低配置 5 刀／月，全球 16 个机房，直连推荐日本机房，大陆直连效果挺好，新加坡的机房就一般了，美西也不错。如果有能力注册阿里云国际并绑定支付方式的同学也可以尝试阿里云的机子，阿里新加坡的机房很好，直连大陆延迟都在两位数（70ms 左右），性价比也很高，不差钱也可以上香港的。</p>
+<p><strong>但是！</strong>由于这篇文章是介绍非常时期的连接，所以我们后面会使用 Cloudflare 提供的免费 CDN ，而应该没有人为了这个购买专业版，所以只有美国 CDN 节点，也建议购买 VPS 的时候选取美国机房，这样甚至比靠近的机房还快一点（回源远了嘛）。</p>
+<p>然后就是如果你前往购买的云主机商家的官网并没有被墙的话请关闭代理登录，注册时候邮箱必须是真实有效的，地址可以不用真实的，但是请离你注册时使用的 IP 近一点，以免不必要的麻烦发生，其他信息自己看着办，别太离谱就好（vultr 只用一个邮箱就可以注册）。毕竟还是牵扯到钱的事情，小心为妙。</p>
+<p>具体购买方法不想赘述，一般几个朋友日用选最低配置就够了，系统建议选择 CentOS/Debian/Ubuntu ，使用的人多、社区庞大，遇到问题也可以在各种教程、论坛中快速解决。</p>
+<h3 id="连接-VPS"><a href="#连接-VPS" class="headerlink" title="连接 VPS"></a>连接 VPS</h3><p>假设到这里你已经成功拥有了一台了 VPS，主机商家应该回给你发送一个包含 IP 地址和 root 密码的邮件，你也可以登录它们的官网查看。我们要使用 SSH 工具连接 VPS。</p>
+<p>Mac 使用自带终端即可，Windows 需要下载工具，如 <a href="https://mobaxterm.mobatek.net/" target="_blank" rel="noopener">MobeXterm</a> <a href="https://www.netsarang.com/zh/xshell/" target="_blank" rel="noopener">Xshell</a> 等工具。</p>
+<p>笔者使用的是 Mac ，但操作大同小异。</p>
+<ol>
+<li><p>使用 SSH 远程连接 VPS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@&#123;ip_address&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后将 root 密码复制到下面的密码框中并回车（不会显示）</p>
+</li>
+<li><p>建议登录后先更改 root 密码，终端输入即可根据提示修改管理员密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h3 id="安装-V2ray"><a href="#安装-V2ray" class="headerlink" title="安装 V2ray"></a>安装 V2ray</h3><p>为了一定程度上更抗封锁，我们使用 ws (WebSocker) + tls + CDN 的形式，Cloudflare 提供免费的 CDN ，所以我们只需要提供服务器的费用、域名的费用（可选）和时间成本。</p>
+<p>首先安装 V2ray：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash &lt;(curl -s -L https:&#x2F;&#x2F;git.io&#x2F;v2ray.sh)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果报错可能是你 VPS 系统没有安装 curl</p>
+<p>CentOS 安装：<code>yum update -y &amp;&amp; yum install curl -y</code> </p>
+<p>Debian/Ubuntu 安装：<code>apt-get update -y &amp;&amp; apt-get install curl -y</code> </p>
+</blockquote>
+<p>然后根据提示来，传入协议选择 <code>WebSocket + TLS</code> ，端口不小于 <code>1025</code> 且没有被占用。</p>
+<p>填写的域名记得解析到 VPS 的 IP 上，如果你还没有域名，可以考虑：</p>
+<ul>
+<li>付费：<a href="/post/49/">浅谈国外域名注册商</a> </li>
+<li>免费：<a href="/post/33/">Freenom 免费域名申请及使用</a> </li>
+</ul>
+<p>域名其实不贵，如果要求不高再考虑免费域名，毕竟一个域名可以干许多事情，Namesilo 还提供终身的免费 WhoisGuard 隐私防护。获得域名后将域名托管给 Cloudflare 并打开 CDN 服务。<a href="/post/51/">教程</a> </p>
+<p>填写好域名后不要自动配置 TLS ，我们后面自己来。至于去广告和安装 SS 自己看，反正我是没有选择，让专业的人做专业的事。</p>
+<p>之后让它安装就好，记得最后记录一下配置文件的路径，后面会用到。</p>
+<h3 id="安装宝塔面板"><a href="#安装宝塔面板" class="headerlink" title="安装宝塔面板"></a>安装宝塔面板</h3><p>宝塔面板是一个对新手十分友好的 VPS 运维可视化操作面板。</p>
+<p>CentOS ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y wget &amp;&amp; wget -O install.sh http://download.bt.cn/install/install_6.0.sh &amp;&amp; sh install.sh</span><br></pre></td></tr></table></figure>
+
+<p>Debian/Ubuntu :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O install.sh http://download.bt.cn/install/install-ubuntu_6.0.sh &amp;&amp; sudo bash install.sh</span><br></pre></td></tr></table></figure>
+
+<p>安装好后登录（记得登录随后修改默认登录密码），安装 Nginx（如果日后还有建站需求也可以安装 LNMP 一绝后患）。</p>
+<h3 id="新建网站"><a href="#新建网站" class="headerlink" title="新建网站"></a>新建网站</h3><p>配置好环境之后就可以新建一个网站。域名填写刚刚配置在 V2ray 的那个域名，由于默认 V2ray 使用 443 端口，所以需要 https ，可以使用 Let’s Encrypt 或者 Clouflare 的免费 SSL 证书。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200205234717.jpg" alt=""></p>
+<p>这里重点介绍下 Cloudflare 的证书申请，前提是你将域名交给 Cloudflare 托管（不交给他你后面怎么它们的 CDN 呢）。</p>
+<p>在域名管理页面 SSL/TLS -&gt; Origin Server -&gt; Create Certificate 创建证书，注意保存下来，密匙只会出现一次。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200205135228.jpg" alt=""></p>
+<p>然后从宝塔面板网站 SSL 设置中的其他证书中导入此证书即可。</p>
+<p>接着修改配置文件，在合适的地方添加：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> /test &#123; <span class="comment"># 准备设置的路径</span></span><br><span class="line">    <span class="attribute">proxy_pass</span>       http://127.0.0.1:12345; <span class="comment"># V2ray 中设置的端口</span></span><br><span class="line">    <span class="attribute">proxy_redirect</span>             <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">proxy_http_version</span>         <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Upgrade   <span class="variable">$http_upgrade</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Connection <span class="string">"upgrade"</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host      <span class="variable">$http_host</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200205235440.jpg" alt=""></p>
+<p>你甚至可以添加一个反向代理到正常的网站，让流量看起来更正常。</p>
+<h3 id="修改-V2ray-配置"><a href="#修改-V2ray-配置" class="headerlink" title="修改 V2ray 配置"></a>修改 V2ray 配置</h3><p>在 V2ray 配置文件中（一般在 <code>/etc/v2ray/config.json</code>）定位到 <code>streamSettings</code> ，然后追加成类似下面的配置：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">"streamSettings": &#123;</span><br><span class="line">  "network": "ws",</span><br><span class="line">  "wsSettings": &#123;</span><br><span class="line">    "path": "/test"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意在有多个设置时，除了最后一项，其他每一项都要在最后加一个英文半角逗号。</p>
+<p>之后执行 <code>v2ray restart</code> 重启即可。</p>
+<h3 id="安装-BBR"><a href="#安装-BBR" class="headerlink" title="安装 BBR"></a>安装 BBR</h3><p>BBR 是谷歌推出的一款拥堵控制算法，可以在基本不增加负载的情况下有效提升连接体验。</p>
+<p>使用 <code>v2ray bbr</code> 即可安装 BBR 插件，不推荐其他魔改。</p>
+<blockquote>
+<p>很多人看到BBR不排队的特征后，第一想到的就是 <strong><em>不排队甚好，但稍微在缓存队列里堆点数据包也不错，不然怎么能赢了那些不守规矩的流呢？</em></strong> 于是乎就出现了各类所谓的 <strong><em>BBR优化</em></strong>，无一例外地都是把Reno/CUBIC那一套算法的 <strong><em>精髓</em></strong> 照搬到BBR，于是BBR就被玩坏了！</p>
+<p>…</p>
+<p>我退出了 <strong><em>BBR优化队伍</em></strong>，我也不玩了，我潜下心希望能 <strong><em>从数学上证明BBR不排队就是最优的，只要排队就不行，一点队列也不行</em></strong>。本文写作前一天，我得了一些结论。记录这些结论并记录我是怎么想的，就是本文的主要内容。</p>
+<hr>
+<p>具体前往：<a href="https://blog.csdn.net/dog250/article/details/82892267" target="_blank" rel="noopener">https://blog.csdn.net/dog250/article/details/82892267</a></p>
+</blockquote>
+<h2 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h2><p>服务端配置完成了，接下来看看客户端。目前有人整理了各平台可用的客户端 <a href="https://www.v2ray.com/awesome/tools.html" target="_blank" rel="noopener">链接地址</a> 。</p>
+<p>可以在 VPS 中使用 <code>v2ray url</code> 或者 <code>v2ray qr</code> 显示节点的链接或者二维码。</p>
+<blockquote>
+<p>但是导入的时候笔者遇到了一个问题，就是即便修改了 V2ray 配置文件并且重启后，路径仍为默认路经 <code>/</code> ，所以导入到客户端的时候需要手动修改为你设置的路径，就可以正常连接。</p>
+</blockquote>
+<h2 id="节点分享"><a href="#节点分享" class="headerlink" title="节点分享"></a>节点分享</h2><p>真的有紧急需求却无从连接？这里提供博主自建和收集的几个免费节点供大家使用。<strong>请不要在任何场合分享，仅供个人学习使用，请勿作出违反你所在地区及服务器所在地区法律法规的行为，请勿用来下载侵权内容等一切不道德行为。</strong> </p>
+<p>不是不限流量的 VPS ，所以连不上可能是没流量了，套用了 CDN 。如果有需求还是建议上付费机场，有服务保障，有售后。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">不定期更新 (最后更新时间 2020-2-22)：</span><br><span class="line"></span><br><span class="line">V2ray</span><br><span class="line"></span><br><span class="line">vmess:&#x2F;&#x2F;eyJhZGQiOiJuZW8yMDIwYS4xYW1ibG9nLmdhIiwiYWlkIjoiMjMzIiwiaG9zdCI6Im5lbzIwMjBhLjFhbWJsb2cuZ2EiLCJpZCI6IjIyZDQwMWMzLTBmNzktNGJjNS05NzA3LWExM2FkODFiMWVkNiIsIm5ldCI6IndzIiwicGF0aCI6Ii9zZWV0aGV3b3JsZCIsInBvcnQiOiI0NDMiLCJwcyI6IlVT576O5Zu95YWN6LS56IqC54K5IHwgQ2hyQWxwaGEuY29tIOaUr+aMgSIsInRscyI6InRscyIsInR5cGUiOiJub25lIiwidiI6IjIifQ&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">vmess:&#x2F;&#x2F;eyJwcyI6IltmcmVlLXNzLnNpdGVdd3d3Lmtlcm5lbHMuYmlkIiwiYWRkIjoid3d3Lmtlcm5lbHMuYmlkIiwicG9ydCI6IjQ0MyIsImlkIjoiOTRhYWJkMTktNWNmZi01ODNjLTNkNmUtY2VkNDY0OTM4ZjVjIiwiYWlkIjoiMCIsIm5ldCI6IndzIiwidHlwZSI6Im5vbmUiLCJob3N0IjoiL3dzIiwidGxzIjoidGxzIn0&#x3D;</span><br><span class="line"></span><br><span class="line">(owocat.xyz 需代理访问) </span><br><span class="line">vmess:&#x2F;&#x2F;ew0KICAidiI6ICIyIiwNCiAgInBzIjogIue+juWbvWNob29wYXxvd29jYXQueHl6IiwNCiAgImFkZCI6ICJjZG4ydXMuMWxvbGkucHciLA0KICAicG9ydCI6ICI0NDMiLA0KICAiaWQiOiAiYjk3YmJmNzQtNGQ0NC0xMWVhLWEwN2MtNTYwMDAyOGI5MjdjIiwNCiAgImFpZCI6ICIzIiwNCiAgIm5ldCI6ICJ3cyIsDQogICJ0eXBlIjogIm5vbmUiLA0KICAiaG9zdCI6ICIiLA0KICAicGF0aCI6ICIvbGFNZDZxRVovIiwNCiAgInRscyI6ICJ0bHMiDQp9</span><br><span class="line"></span><br><span class="line">vmess:&#x2F;&#x2F;ew0KICAidiI6ICIyIiwNCiAgInBzIjogIuS&#x2F;hOe9l+aWr3xvd29jYXQueHl6IiwNCiAgImFkZCI6ICI0Ni4xNy40MS4xMiIsDQogICJwb3J0IjogIjEwMjM2IiwNCiAgImlkIjogImQ1ZTgxNDA2LTRmOTYtMTFlYS04MzdmLTk2Mzg2ZjZhM2UwNyIsDQogICJhaWQiOiAiMCIsDQogICJuZXQiOiAidGNwIiwNCiAgInR5cGUiOiAibm9uZSIsDQogICJob3N0IjogIiIsDQogICJwYXRoIjogIiIsDQogICJ0bHMiOiAiIg0KfQ&#x3D;&#x3D;</span><br><span class="line">vmess:&#x2F;&#x2F;ew0KICAidiI6ICIyIiwNCiAgInBzIjogIlYycmF55L+E572X5pav6IqC54K5I+abtOWkmuiKgueCueivt+WFs+azqOeUteaKpemikemBk0B2eml3bCIsDQogICJhZGQiOiAidjJyYXkucnUubXNrLnYycmF5bmIueHl6IiwNCiAgInBvcnQiOiAiNDQzIiwNCiAgImlkIjogIjc0Y2JiOTEzLWRlNDUtNDU1YS04NDY0LTFiYzE4ZjUyYmFmOSIsDQogICJhaWQiOiAiNjQiLA0KICAibmV0IjogIndzIiwNCiAgInR5cGUiOiAibm9uZSIsDQogICJob3N0IjogInYycmF5LnJ1Lm1zay52MnJheW5iLnh5eiIsDQogICJwYXRoIjogIi84ZDI4YzMwNC8iLA0KICAidGxzIjogInRscyINCn0&#x3D;</span><br><span class="line">vmess:&#x2F;&#x2F;eyJhZGQiOiJ2MnJheS51cy5sc2oudjJyYXluYi54eXoiLCJhaWQiOiI2NCIsImhvc3QiOiJ2MnJheS51cy5sc2oudjJyYXluYi54eXoiLCJpZCI6ImRmY2Y5OWQ3LWJjMTMtNDQ1MS05NjAwLThhNGFjNzJiNGQ2NiIsIm5ldCI6IndzIiwicGF0aCI6Ii9lNWExMjI1YS8iLCJwb3J0IjoiNDQzIiwicHMiOiJWMnJheee+juWbvU1D6IqC54K5I+abtOWkmuiKgueCueivt+WFs+azqOeUteaKpemikemBk0B2eml3bCIsInRscyI6InRscyIsInR5cGUiOiJub25lIiwidiI6IjIifQ&#x3D;&#x3D;</span><br><span class="line">vmess:&#x2F;&#x2F;eyJhZGQiOiJ2MnJheS1hd3MudjJyYXluYi54eXoiLCJhaWQiOiI2NCIsImhvc3QiOiJ2MnJheS1hd3MudjJyYXluYi54eXoiLCJpZCI6ImY4NGM5Y2Y0LTI2MzEtNDk3My1hMDllLTkzNTIyYzg3ZmE4MCIsIm5ldCI6IndzIiwicGF0aCI6Ii8xNTU0YjFkNi8iLCJwb3J0IjoiNDQzIiwicHMiOiJWMnJheee+juWbvUFXU+iKgueCuSPmm7TlpJroioLngrnor7flhbPms6jnlLXmiqXpopHpgZNAdnppd2wiLCJ0bHMiOiJ0bHMiLCJ0eXBlIjoibm9uZSIsInYiOiIyIn0&#x3D;</span><br><span class="line">vmess:&#x2F;&#x2F;ew0KICAidiI6ICIyIiwNCiAgInBzIjogIue+juWbveilv+mbheWbvnxvd29jYXQueHl6IiwNCiAgImFkZCI6ICIxOTIuMy44MC4xNTkiLA0KICAicG9ydCI6ICIxMDA5OCIsDQogICJpZCI6ICI2YmU5YmNlNC00Zjk2LTExZWEtOGI3Zi0wMDE2M2M4ZGM1MWUiLA0KICAiYWlkIjogIjAiLA0KICAibmV0IjogInRjcCIsDQogICJ0eXBlIjogIm5vbmUiLA0KICAiaG9zdCI6ICIiLA0KICAicGF0aCI6ICIiLA0KICAidGxzIjogIiINCn0&#x3D;</span><br><span class="line">vmess:&#x2F;&#x2F;ew0KICAidiI6ICIyIiwNCiAgInBzIjogIue+juWbvea0m+adieeftnxvd29jYXQueHl6IiwNCiAgImFkZCI6ICIxMDcuMTc0LjE3MC4xNjciLA0KICAicG9ydCI6ICIxMDI0NSIsDQogICJpZCI6ICJhMjU0OGY1MC00ZGY5LTExZWEtYTAwMy0wMDE2M2M4NzAzYmUiLA0KICAiYWlkIjogIjAiLA0KICAibmV0IjogInRjcCIsDQogICJ0eXBlIjogIm5vbmUiLA0KICAiaG9zdCI6ICIiLA0KICAicGF0aCI6ICIiLA0KICAidGxzIjogIiINCn0&#x3D;</span><br><span class="line">vmess:&#x2F;&#x2F;ew0KICAidiI6ICIyIiwNCiAgInBzIjogIue+juWbvWNob29wYXxvd29jYXQueHl6IiwNCiAgImFkZCI6ICJjZG4ydXMuMWxvbGkucHciLA0KICAicG9ydCI6ICI0NDMiLA0KICAiaWQiOiAiYjk3YmJmNzQtNGQ0NC0xMWVhLWEwN2MtNTYwMDAyOGI5MjdjIiwNCiAgImFpZCI6ICIzIiwNCiAgIm5ldCI6ICJ3cyIsDQogICJ0eXBlIjogIm5vbmUiLA0KICAiaG9zdCI6ICIiLA0KICAicGF0aCI6ICIvbGFNZDZxRVovIiwNCiAgInRscyI6ICJ0bHMiDQp9</span><br><span class="line">vmess:&#x2F;&#x2F;eyJhZGQiOiJ2MnJheS1qcC5xb3ZvcS5jZiIsImFpZCI6IjY0IiwiaG9zdCI6InYycmF5LWpwLnFvdm9xLmNmIiwiaWQiOiI5ZDBjY2YzMi1hYTVjLTRlNmUtYTMxYi1iY2VhODcwMjkwMzEiLCJuZXQiOiJ3cyIsInBhdGgiOiIvYWFjMzUzYTUvIiwicG9ydCI6IjQ0MyIsInBzIjoiVjJyYXnml6XmnKxOVFToioLngrkj5pu05aSa6IqC54K56K+35YWz5rOo55S15oql6aKR6YGTQHZ6aXdsIiwidGxzIjoidGxzIiwidHlwZSI6Im5vbmUiLCJ2IjoiMiJ9</span><br><span class="line"></span><br><span class="line">Shadowsocks: 封锁太快，停止分享</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">This article was last updated on <span id="date-expire-num"></span> days ago, and the information described in the article may have changed.</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-02-28");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">Published at&nbsp;<time datetime="2020-02-05T02:17:01.000Z" itemprop="datePublished">2020-02-05</time>
+
+    , Updated at&nbsp;<time datetime="2020-02-28T12:59:40.971Z" itemprop="dateModified">2020-02-28</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E5%88%86%E4%BA%AB%E9%9B%86/'>分享集</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/V2ray/" rel="tag">#&nbsp;V2ray</a>
+
+<a class="post-tags-list-item" href="/tags/Socks/" rel="tag">#&nbsp;Socks</a>
+
+<a class="post-tags-list-item" href="/tags/%E6%89%B6%E6%A2%AF/" rel="tag">#&nbsp;扶梯</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+        <li class="page-item page-prev">
+            <a href="/post/build-an-online-ide-by-jupyter-notebook/" rel="prev">
+                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">搭建一个在线 IDE，Jupyter Notebook 帮你快速构建</div>
+            </a>
+        </li>
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/post/proxy-and-reverse-proxy/" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">Proxy Server | 正向代理与反向代理</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://test.ichr.ml">ChrAlpha 的实验室</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.3 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>

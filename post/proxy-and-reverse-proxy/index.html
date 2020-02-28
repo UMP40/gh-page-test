@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>Proxy Server | 正向代理与反向代理 | ChrAlpha 的实验室</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/img/suka-favicon.ico">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+
+
+
+    <!-- Prettify Theme -->
+    
+    <link rel="preload" href="/css/highlight/github.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/css/highlight/github.min.css"></noscript>
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="ChrAlpha 的实验室"><meta name="msapplication-starturl" content="https://test.ichr.ml"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ChrAlpha 的实验室"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="Proxy Server | 正向代理与反向代理 | ChrAlpha 的实验室"><meta property="og:site_name" content="ChrAlpha 的实验室"><meta property="og:type" content="article"><meta property="og:url" content="https://test.ichr.ml/post/proxy-and-reverse-proxy/"><meta property="og:locale" content="en"><meta name="description" content="看到这里的同学应该对「代理」并不陌生。无论是特别的上网技能还是 Nginx 映射本地端口，都离不开代理的特效。这次，让我们再一次看看：代理，究竟是如何运作的。并重点介绍下可能更陌生一点的「反向代理」，我们可以用反向代理干什么。 - ChrAlpha - ChrAlpha 的实验室"><meta name="keywords" content="proxy, forward proxy, reverse proxy, 代理, 正向代理, 反向代理, 分享, 浅析, 原理, 介绍"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202212115.jpg"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202184928.jpg"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202184929.jpg"><meta property="article:published_time" content="2020-02-02T17:38:36.000Z"><meta property="article:modified_time" content="2020-02-28T12:57:58.957Z"><meta property="og:updated_time" content="2020-02-28T12:57:58.957Z"><meta property="article:author" content="ChrAlpha"><meta property="article:tag" content="proxy, forward proxy, reverse proxy, 代理, 正向代理, 反向代理, 分享, 浅析, 原理, 介绍"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202212115.jpg">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://test.ichr.ml/post/proxy-and-reverse-proxy/">
+
+    <meta name="generator" content="Hexo 4.2.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://test.ichr.ml/post/proxy-and-reverse-proxy/",
+    "@type": "BlogPosting",
+    "logo": "https://test.ichr.ml/img/suka-favicon.ico",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://test.ichr.ml/post/proxy-and-reverse-proxy/"
+    },
+    "headline": "Proxy Server | 正向代理与反向代理 | ChrAlpha 的实验室",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202212115.jpg"
+    },
+    
+    "datePublished": "2020-02-02T17:38:36.000Z",
+    "dateModified": "2020-02-28T12:57:58.957Z",
+    "author": {
+        "@type": "Person",
+        "name": "ChrAlpha",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/default_avatar.png"
+        },
+        "description": "Only for test."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "ChrAlpha 的实验室",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/suka-favicon.ico"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://test.ichr.ml/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "proxy, forward proxy, reverse proxy, 代理, 正向代理, 反向代理, 分享, 浅析, 原理, 介绍",
+    "description": "看到这里的同学应该对「代理」并不陌生。无论是特别的上网技能还是 Nginx 映射本地端口，都离不开代理的特效。这次，让我们再一次看看：代理，究竟是如何运作的。并重点介绍下可能更陌生一点的「反向代理」，我们可以用反向代理干什么。 - ChrAlpha - ChrAlpha 的实验室"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">ChrAlpha 的实验室</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                Only for test.
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">Home</a>
+    
+    
+        <a href="/archives/" class="navbar-link">Archives</a>
+    
+    
+        <a href="/search" class="navbar-link">Search</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">Share</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=ChrAlpha 的实验室&url=https://test.ichr.ml&pic=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202212115.jpg&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=ChrAlpha 的实验室&url=https://test.ichr.ml&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml&title=Proxy Server | 正向代理与反向代理" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=Proxy Server | 正向代理与反向代理&summary=&pics=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202212115.jpg&url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://test.ichr.ml&text=Proxy Server | 正向代理与反向代理" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB3klEQVR42u3by47DIBBEUf//T89srQiqqm0W0L7e5KE4PpYI/YBcfxseFyhQoEANUJc4Rp+5v549v78uXQdUG9Rw0A3eH118dgOjc9x1QPVCzQapGvBqAI/OtT8GUJ9BqYE7G+TqPFCgUtDvpAjq2ygVfFWAdj+MSuAH1QeVBNUVj8uqGVBbo2zTwQz02fPZwF7SdQG1NSotMEeTZjKxJt8PqhdKJWbVgO3eU58F1Qc1G3iuseEKh7SAsM19UEeiXDGQBuikcFATKKheqGSiqyR26vzpDYFqhXJB1xWVrhkbgUG1QakFoKTQfDuhguqFerPA7TZEuBu3xSioI1FR0/3FBGmLhac7OEBtj0q/xC0apQuP8cooqONQLqlTQTpZ/E6KE1D9US6hSxqu6kZsgwPU8ShXLMTFZDi4bTEK6miUKyRdMzVt6KokEVRfVOVPGEmgfhyQQbVApRtw3MWrCwPl7jCoo1AqgUs32VQ29kRNM1DHodIg7DbbuITO/XBA9UElQTgtQhO83IgBqg0qDcSuYEgTvvKuIFBHotQfLlZsCIxuCtSnUGmh6hK7ctMMVEtUuiCZJH2lzRKgjkZVFo8U3iZyqrgF1QZVWThMkrsnNwKqD2qnAxQoUKBuxz8nzS+eE0JqNwAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+            <div class="card-image lazyload" data-bg="url('https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202212115.jpg')"></div>
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">Proxy Server | 正向代理与反向代理</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/img/default_avatar.png" src="/img/suka-lazyload.gif" alt="ChrAlpha's Avatar">
+        <span>2020-02-03</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">Share the post</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=Proxy Server | 正向代理与反向代理&url=https://test.ichr.ml/post/proxy-and-reverse-proxy/&pic=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202212115.jpg&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=Proxy Server | 正向代理与反向代理&url=https://test.ichr.ml/post/proxy-and-reverse-proxy/&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml/post/proxy-and-reverse-proxy/" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://test.ichr.ml/post/proxy-and-reverse-proxy/" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml/post/proxy-and-reverse-proxy/&title=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=ChrAlpha 的实验室&summary=&pics=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202212115.jpg&url=https://test.ichr.ml/post/proxy-and-reverse-proxy/" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://test.ichr.ml/post/proxy-and-reverse-proxy/&text=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB3klEQVR42u3by47DIBBEUf//T89srQiqqm0W0L7e5KE4PpYI/YBcfxseFyhQoEANUJc4Rp+5v549v78uXQdUG9Rw0A3eH118dgOjc9x1QPVCzQapGvBqAI/OtT8GUJ9BqYE7G+TqPFCgUtDvpAjq2ygVfFWAdj+MSuAH1QeVBNUVj8uqGVBbo2zTwQz02fPZwF7SdQG1NSotMEeTZjKxJt8PqhdKJWbVgO3eU58F1Qc1G3iuseEKh7SAsM19UEeiXDGQBuikcFATKKheqGSiqyR26vzpDYFqhXJB1xWVrhkbgUG1QakFoKTQfDuhguqFerPA7TZEuBu3xSioI1FR0/3FBGmLhac7OEBtj0q/xC0apQuP8cooqONQLqlTQTpZ/E6KE1D9US6hSxqu6kZsgwPU8ShXLMTFZDi4bTEK6miUKyRdMzVt6KokEVRfVOVPGEmgfhyQQbVApRtw3MWrCwPl7jCoo1AqgUs32VQ29kRNM1DHodIg7DbbuITO/XBA9UElQTgtQhO83IgBqg0qDcSuYEgTvvKuIFBHotQfLlZsCIxuCtSnUGmh6hK7ctMMVEtUuiCZJH2lzRKgjkZVFo8U3iZyqrgF1QZVWThMkrsnNwKqD2qnAxQoUKBuxz8nzS+eE0JqNwAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#What’s-「Proxy」-？"><span class="post-toc-number">1.</span> <span class="post-toc-text">What’s 「Proxy」 ？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Forward-Proxy-正向代理"><span class="post-toc-number">2.</span> <span class="post-toc-text">Forward Proxy | 正向代理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#正向代理工作原理"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">正向代理工作原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#优势"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">优势</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Reverse-Proxy-反向代理"><span class="post-toc-number">3.</span> <span class="post-toc-text">Reverse Proxy | 反向代理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#反向代理工作原理"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">反向代理工作原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#优势-1"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">优势</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实践出真知"><span class="post-toc-number">4.</span> <span class="post-toc-text">实践出真知</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#端口映射"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">端口映射</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#负载均衡"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">负载均衡</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#后"><span class="post-toc-number">5.</span> <span class="post-toc-text">后</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <p>看到这里的同学应该对「代理」并不陌生。无论是特别的上网技能还是 Nginx 映射本地端口，都离不开代理的特效。</p>
+<p>这次，让我们再一次看看：代理，究竟是如何运作的。并重点介绍下可能更陌生一点的「反向代理」，我们可以用反向代理干什么。</p>
+<a id="more"></a>
+
+
+
+<h2 id="What’s-「Proxy」-？"><a href="#What’s-「Proxy」-？" class="headerlink" title="What’s 「Proxy」 ？"></a>What’s 「Proxy」 ？</h2><p>无论正向代理还是反向代理，都是「代理」<del>（废话？）</del> </p>
+<p>代理就像一个中转站，服务端与客户端之间的交流交给代理在中间代理。客户端想访问服务端，并不直接向服务端发出请求，而是向代理发出，然后让代理转交给服务端；同样的，服务端返回数据，并不是直接发回给客户端，而是发给代理，再让代理交还给客户端。所有客户端和服务端之间的流量都会由代理来转发。</p>
+<p>好像把事情变麻烦了？不急，它自有用处。</p>
+<h2 id="Forward-Proxy-正向代理"><a href="#Forward-Proxy-正向代理" class="headerlink" title="Forward Proxy | 正向代理"></a>Forward Proxy | 正向代理</h2><h3 id="正向代理工作原理"><a href="#正向代理工作原理" class="headerlink" title="正向代理工作原理"></a>正向代理工作原理</h3><p>在正向代理时，代理服务器会先和客户端（Client）建立连接，然后客户端将某些特定请求或全部网络请求发给代理服务器，代理服务器再拿着请求跑去送给对应的服务端（Server）。同样的，服务端回应这个请求的时候也是先发给代理服务器（毕竟表面上这个请求是代理服务器发出的），然后代理服务器再把回应送回给客户端。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202184928.jpg" alt=""></p>
+<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><p>从上面介绍的正向代理工作原理来看，代理服务器负责代替客户端发出和接收网络请求，所以表面上好像是代理客户端在发出请求<del>（实际上貌似也是）</del> ，这样给真实的客户端披上一层外套。</p>
+<p>不难发现，正向代理可以：</p>
+<ul>
+<li><strong>突破访问限制</strong>（解锁），比如某些限制了地区使用的资源，我可以用一个当地的代理，让它代理我的流量，骗过服务端。</li>
+<li><strong>屏蔽广告</strong>，代理服务器可以判断返回的内容，如果是不受欢迎的广告或追踪代码，代理服务器就把它拦下来，不发给服务端。</li>
+<li><strong>匿名</strong>，可能有很多同学都在使用一个代理，服务端无从知道真实的请求是谁发出的，只知道是由代理转发的。从而保障了<strong>一定的</strong>匿名性。</li>
+</ul>
+<h2 id="Reverse-Proxy-反向代理"><a href="#Reverse-Proxy-反向代理" class="headerlink" title="Reverse Proxy | 反向代理"></a>Reverse Proxy | 反向代理</h2><h3 id="反向代理工作原理"><a href="#反向代理工作原理" class="headerlink" title="反向代理工作原理"></a>反向代理工作原理</h3><p>那反向代理又是如何工作的呢？这次代理是替服务端（Server）工作了。</p>
+<p>服务端只对外公开代理的地址，所有发送给服务端的请求都会先到代理那里，然后让代理再根据请求分发给相应的服务端；回应的时候也是类似。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202184929.jpg" alt=""></p>
+<h3 id="优势-1"><a href="#优势-1" class="headerlink" title="优势"></a>优势</h3><p>为什么需要这样的一步呢？其实许多服务器并不是十分顽强，收到过多的请求甚至可能宕机，更不用说要是被攻击了。而套上这一层反向代理，代理服务器可以将请求均衡地分配给服务器组，防止过多请求集中在一台或者几台服务器上，使其负载过大影响服务，这就叫「负载均衡」。同样地，遇到异常流量，代理可以直接拦截下来，而且代理还可以隐藏服务端的真实地址，这都起到了保护服务端的作用。</p>
+<p>反向代理不仅可以保护服务器，甚至还可以加速访问！比如代理服务器可以将一些静态资源缓存下来，如果遇到请求，就不用向服务端发送，直接返回资源，更有利于让服务端将算力、带宽集中在加载重要的地方。</p>
+<p>这里就不得不提到 CDN 了。CDN 的全称是<strong>内容分发网络</strong> (<strong>C</strong>ontent <strong>D</strong>elivery <strong>N</strong>etwork 或 <strong>C</strong>ontent <strong>D</strong>istribution <strong>N</strong>etwork) ，可以将资源缓存在多台服务器上，访问的时候从最近的服务器中获取，提供高性能的传递且降低骨干网负载。而 CDN 大多也是基于 Nginx 或者 Nginx + SNI 反向代理实现的，所以你也可以将域名指向 CDN 隐藏真实地址。</p>
+<h2 id="实践出真知"><a href="#实践出真知" class="headerlink" title="实践出真知"></a>实践出真知</h2><h3 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h3><p>我在自己的 VPS 上 <a href="/post/build-an-online-ide-by-jupyter-notebook/">搭建 Jupyter Notebook</a> 实现 Web 端编写运行 Python 代码。</p>
+<p>我配置 Jupyter Notebook 是运行在 <code>localhost:35767</code> 上的。目前我已经将 <code>jupyter.domain.com</code> 解析到该 VPS 地址上了，而从公网访问 VPS 地址都是直接发送给 Nginx 代理上的。所以我们要合理配置 Nginx 使其能够让域名转发到对应服务的端口。</p>
+<p>打开你的 Nginx 主配置文件（一般在 <code>/etc/nginx/nginx.conf</code> ，如果你也是使用宝塔的快速安装，那么会在 <code>/www/server/nginx/conf/nginx.conf</code> ）</p>
+<p>首先我们定义 upstream 内容：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">uptream</span> jupyter &#123;</span><br><span class="line">  <span class="attribute">server</span> <span class="number">127.0.0.1:35767</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就规定了名为 <code>jupyter</code> 的服务是在本机地址的 35767 端口上运行的，如果访问这个服务就定位过去。之后请求就可以以 <code>http(s)://jupyter</code> 代表 <code>jupyter</code> 的服务端地址，也就是 <code>127.0.0.1:35767</code> 。</p>
+<p>然后我们监听 http/https 的请求，分别在 80/443 端口。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line">  <span class="attribute">server_name</span> jupyter.domain.com; <span class="comment"># 对应的域名</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># https...ssl...</span></span><br><span class="line">  </span><br><span class="line">  <span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://jupyter; <span class="comment"># 转发请求</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就实现了让 <code>juypter.domain.com</code> 的请求跳到 <code>juypter</code> 的服务地址，而之前我们已经配置好了该服务地址。</p>
+<h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><p>端口映射并不能真正体现 upstream 的强大，而负载均衡就不一样了。比如我想将 <code>aria2c.domain.com</code> 请求平均的分配到 6800 和 6999 这两个端口上。</p>
+<p>首先定义 upstream ：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">upstream</span> aria2c &#123;</span><br><span class="line">  <span class="attribute">server</span> <span class="number">127.0.0.1:6800</span>;</span><br><span class="line">  <span class="attribute">server</span> <span class="number">127.0.0.1:6999</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>之后就只需要监听端口，判断域名是否匹配，然后转发到 <code>http://aria2c</code> 即可。</p>
+<p>默认两个端口是同级的（权重为 1），你还可以为每个端口设定一个权重，或者根据 IP 分配，根据响应时间分配，等等。</p>
+<h2 id="后"><a href="#后" class="headerlink" title="后"></a>后</h2><p>看，正向代理拓展了客户端上网的姿势，反向代理使服务端更加强大。</p>
+<p>但其实，代理能做到的远不止这些，目前已经有了许多玩法。无声无息中为大家提供便利。</p>
+<p>限制代理能力的，或许只有人们的脑洞罢了。</p>
+<br/>
+
+<p>(Ended, thanks for reading…)</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">This article was last updated on <span id="date-expire-num"></span> days ago, and the information described in the article may have changed.</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-02-28");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">Published at&nbsp;<time datetime="2020-02-02T17:38:36.000Z" itemprop="datePublished">2020-02-03</time>
+
+    , Updated at&nbsp;<time datetime="2020-02-28T12:57:58.957Z" itemprop="dateModified">2020-02-28</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%80%E6%9C%AF%E5%90%91/'>技术向</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">#&nbsp;代理</a>
+
+<a class="post-tags-list-item" href="/tags/Proxy/" rel="tag">#&nbsp;Proxy</a>
+
+<a class="post-tags-list-item" href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" rel="tag">#&nbsp;反向代理</a>
+
+<a class="post-tags-list-item" href="/tags/Nginx/" rel="tag">#&nbsp;Nginx</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+        <li class="page-item page-prev">
+            <a href="/outlook/get-a-stable-outlook-through-v2ray-and-cdn/" rel="prev">
+                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">V2ray + CDN 稳定看世界</div>
+            </a>
+        </li>
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/post/what-is-download-actually/" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">浅谈「下载」行为</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://test.ichr.ml">ChrAlpha 的实验室</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.3 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>

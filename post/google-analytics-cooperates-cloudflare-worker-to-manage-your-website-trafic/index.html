@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>Cloudflare Worker 配合 Google Analytics 管理网站流量 | ChrAlpha 的实验室</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/img/suka-favicon.ico">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+
+
+
+    <!-- Prettify Theme -->
+    
+    <link rel="preload" href="/css/highlight/github.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/css/highlight/github.min.css"></noscript>
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="ChrAlpha 的实验室"><meta name="msapplication-starturl" content="https://test.ichr.ml"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ChrAlpha 的实验室"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="Cloudflare Worker 配合 Google Analytics 管理网站流量 | ChrAlpha 的实验室"><meta property="og:site_name" content="ChrAlpha 的实验室"><meta property="og:type" content="article"><meta property="og:url" content="https://test.ichr.ml/post/google-analytics-cooperates-cloudflare-worker-to-manage-your-website-trafic/"><meta property="og:locale" content="en"><meta name="description" content="笔者一直使用 Google Analytics 分析流量，以助于更好的提供内容。但是由于大多访问量来自国内，Google 国内的数据中心又…… 又于是在浏览 @SukkaW 的博客的时候偶然发现了解决方法，便在这里分享出来，以供大家参考。 - ChrAlpha - ChrAlpha 的实验室"><meta name="keywords" content="cloudflare, google analytics, cloudflare worker, 流量, SEO, 教程"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20191221210306.jpg"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20191221210613.jpg"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20191221210805.jpg"><meta property="article:published_time" content="2019-12-21T08:46:50.000Z"><meta property="article:modified_time" content="2020-02-26T05:10:19.551Z"><meta property="og:updated_time" content="2020-02-26T05:10:19.551Z"><meta property="article:author" content="ChrAlpha"><meta property="article:tag" content="cloudflare, google analytics, cloudflare worker, 流量, SEO, 教程"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://test.ichr.ml/post/google-analytics-cooperates-cloudflare-worker-to-manage-your-website-trafic/">
+
+    <meta name="generator" content="Hexo 4.2.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://test.ichr.ml/post/google-analytics-cooperates-cloudflare-worker-to-manage-your-website-trafic/",
+    "@type": "BlogPosting",
+    "logo": "https://test.ichr.ml/img/suka-favicon.ico",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://test.ichr.ml/post/google-analytics-cooperates-cloudflare-worker-to-manage-your-website-trafic/"
+    },
+    "headline": "Cloudflare Worker 配合 Google Analytics 管理网站流量 | ChrAlpha 的实验室",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://test.ichr.ml/img/suka-favicon.ico"
+    },
+    
+    "datePublished": "2019-12-21T08:46:50.000Z",
+    "dateModified": "2020-02-26T05:10:19.551Z",
+    "author": {
+        "@type": "Person",
+        "name": "ChrAlpha",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/default_avatar.png"
+        },
+        "description": "Only for test."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "ChrAlpha 的实验室",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/suka-favicon.ico"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://test.ichr.ml/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "cloudflare, google analytics, cloudflare worker, 流量, SEO, 教程",
+    "description": "笔者一直使用 Google Analytics 分析流量，以助于更好的提供内容。但是由于大多访问量来自国内，Google 国内的数据中心又…… 又于是在浏览 @SukkaW 的博客的时候偶然发现了解决方法，便在这里分享出来，以供大家参考。 - ChrAlpha - ChrAlpha 的实验室"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">ChrAlpha 的实验室</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                Only for test.
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">Home</a>
+    
+    
+        <a href="/archives/" class="navbar-link">Archives</a>
+    
+    
+        <a href="/search" class="navbar-link">Search</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">Share</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=ChrAlpha 的实验室&url=https://test.ichr.ml&pic=https://test.ichr.ml/img/suka-favicon.ico&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=ChrAlpha 的实验室&url=https://test.ichr.ml&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml&title=Cloudflare Worker 配合 Google Analytics 管理网站流量" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=Cloudflare Worker 配合 Google Analytics 管理网站流量&summary=&pics=https://test.ichr.ml/img/suka-favicon.ico&url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://test.ichr.ml&text=Cloudflare Worker 配合 Google Analytics 管理网站流量" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAAAAAAYplnuAAACsklEQVR42u3cwW7rMAxEUf//T7ebLtzA4txRjBaBbzZB8WLl2CgriiTe8fWBr0O0aNGiH4g+htevC35+Pr+fP5fWeL3+fA11iBZN0Ze/9BeLr754el+tMd3M0iFadIFewVb4K8D0IChufECiRd+ETjeTNp/VZ0WL/i90G6gpSdp5SKJFt+i0GUxBtUrmr9ZsNiTRonfR04HyL99vO42LfjQ6Fv3AhrG6Jm08U2C+VTUV/Wj0FAgT5upG6Hqvn8HfL1o0QJPiYJPcrG6G3FRKvESLbtGrIKFFmCkRSsV4ctOiRRM0WZw2iN5pfpIkSrRogl4FFw2ynaYSaRpVCZNo0YtizZTUk8ESclBoh1xihUm06FBUbxrvO8nW6sbJBiNaNEWnw2VKnppCTgrE8YGJFg3QUzA1RRdaiKTBPzb0RYuG8x5NgYYWz8mauLkkWnSBpkMmUyA1N54Otbi7JVp0SJhSs54UeXaGXUhhXbRogqYFmdT43EmY6iRNtOgCnRpF6RDaDK+kQzUaJhQtOhTVSSCQf2sHEKsGkmjREJ02GtoAJcXztqlaNYpEiwaDVzTRIQfVpgmFEybRokHCRP7wT8XG+OWwiPn2VK/oR6PbGyCbBWlqNkUi0aIpOiX5q5sggdYOWk2HEdGiCTo1dkig3gFPD0m06BadGuqkcUmapbcWIEWLLv9TkimZJ0OwzTooQEWL3kCTpJ02+OkhN/0xEC16B03wqcnfBHXaTFAgihYN6x508IQW4UlTCCVwokVvHgLSYYA0RekmktbFB1vRosEhYErcU8KVCujt4UK06BY9BQY5fKZiIm2ajkOzokXfhE4H2Z0C/VbxXrTom9BpYZLc06Aeh7hEiy7QZNCEDIXT4RUy0LXVCRAtuigE0mHZdF1T9BQtukV/0ku0aNGiH4T+BpLOuznGrlwAAAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">Cloudflare Worker 配合 Google Analytics 管理网站流量</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/img/default_avatar.png" src="/img/suka-lazyload.gif" alt="ChrAlpha's Avatar">
+        <span>2019-12-21</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E7%AC%94%E8%AE%B0%E6%9C%AC/">笔记本</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">Share the post</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=Cloudflare Worker 配合 Google Analytics 管理网站流量&url=https://test.ichr.ml/post/google-analytics-cooperates-cloudflare-worker-to-manage-your-website-trafic/&pic=https://test.ichr.ml/img/suka-favicon.ico&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=Cloudflare Worker 配合 Google Analytics 管理网站流量&url=https://test.ichr.ml/post/google-analytics-cooperates-cloudflare-worker-to-manage-your-website-trafic/&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml/post/google-analytics-cooperates-cloudflare-worker-to-manage-your-website-trafic/" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://test.ichr.ml/post/google-analytics-cooperates-cloudflare-worker-to-manage-your-website-trafic/" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml/post/google-analytics-cooperates-cloudflare-worker-to-manage-your-website-trafic/&title=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=ChrAlpha 的实验室&summary=&pics=https://test.ichr.ml/img/suka-favicon.ico&url=https://test.ichr.ml/post/google-analytics-cooperates-cloudflare-worker-to-manage-your-website-trafic/" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://test.ichr.ml/post/google-analytics-cooperates-cloudflare-worker-to-manage-your-website-trafic/&text=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAAAAAAYplnuAAACsklEQVR42u3cwW7rMAxEUf//T7ebLtzA4txRjBaBbzZB8WLl2CgriiTe8fWBr0O0aNGiH4g+htevC35+Pr+fP5fWeL3+fA11iBZN0Ze/9BeLr754el+tMd3M0iFadIFewVb4K8D0IChufECiRd+ETjeTNp/VZ0WL/i90G6gpSdp5SKJFt+i0GUxBtUrmr9ZsNiTRonfR04HyL99vO42LfjQ6Fv3AhrG6Jm08U2C+VTUV/Wj0FAgT5upG6Hqvn8HfL1o0QJPiYJPcrG6G3FRKvESLbtGrIKFFmCkRSsV4ctOiRRM0WZw2iN5pfpIkSrRogl4FFw2ynaYSaRpVCZNo0YtizZTUk8ESclBoh1xihUm06FBUbxrvO8nW6sbJBiNaNEWnw2VKnppCTgrE8YGJFg3QUzA1RRdaiKTBPzb0RYuG8x5NgYYWz8mauLkkWnSBpkMmUyA1N54Otbi7JVp0SJhSs54UeXaGXUhhXbRogqYFmdT43EmY6iRNtOgCnRpF6RDaDK+kQzUaJhQtOhTVSSCQf2sHEKsGkmjREJ02GtoAJcXztqlaNYpEiwaDVzTRIQfVpgmFEybRokHCRP7wT8XG+OWwiPn2VK/oR6PbGyCbBWlqNkUi0aIpOiX5q5sggdYOWk2HEdGiCTo1dkig3gFPD0m06BadGuqkcUmapbcWIEWLLv9TkimZJ0OwzTooQEWL3kCTpJ02+OkhN/0xEC16B03wqcnfBHXaTFAgihYN6x508IQW4UlTCCVwokVvHgLSYYA0RekmktbFB1vRosEhYErcU8KVCujt4UK06BY9BQY5fKZiIm2ajkOzokXfhE4H2Z0C/VbxXrTom9BpYZLc06Aeh7hEiy7QZNCEDIXT4RUy0LXVCRAtuigE0mHZdF1T9BQtukV/0ku0aNGiH4T+BpLOuznGrlwAAAAAAElFTkSuQmCC" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Cloudflare-Workers-简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">Cloudflare Workers 简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用"><span class="post-toc-number">2.</span> <span class="post-toc-text">使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-新建一个-Worker"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1. 新建一个 Worker</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-插入对应-JS-到网站"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2. 插入对应 JS 到网站</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#完成"><span class="post-toc-number">3.</span> <span class="post-toc-text">完成</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <p>笔者一直使用 Google Analytics 分析流量，以助于更好的提供内容。但是由于大多访问量来自国内，Google 国内的数据中心又……</p>
+<p>又于是在浏览 <a href="https://skk.moe" target="_blank" rel="noopener">@SukkaW</a> 的博客的时候偶然发现了解决方法，便在这里分享出来，以供大家参考。</p>
+<a id="more"></a> 
+
+<hr>
+<h3 id="Cloudflare-Workers-简介"><a href="#Cloudflare-Workers-简介" class="headerlink" title="Cloudflare Workers 简介"></a>Cloudflare Workers 简介</h3><p>官网介绍：</p>
+<blockquote>
+<p>Build serverless applications on Cloudflare’s global cloud network spanning 194 cities across over 90 countries. Cloudflare Workers provides a lightweight JavaScript execution environment that allows developers to augment existing applications or create entirely new ones without configuring or maintaining infrastructure.</p>
+</blockquote>
+<p>翻译：</p>
+<blockquote>
+<p>利用 Cloudflare 90 多个国家／194 个城市的全球云网络搭建一个<strong>无后端</strong>的应用程序。Cloudflare Workers 提供了一个轻量的执行环境，使开发人员无需配置维护基础架构就可以扩展或者构建一个应用程序。</p>
+</blockquote>
+<p>简而言之就是提供轻量级的服务器直接实现一些无后端的服务。</p>
+<p>Cloudflare 国内还和百度有合作，光国内就又有 20 余台服务器。我们可以很方便的将用 Cloudflare Workers 来将数据转发至 Google Analytics 。</p>
+<p>Cloudflare 依然十分慷慨地给了每日 10 万次的免费请求额度，一般的站点应该都是够的了，这里分享一下如何实现。</p>
+<hr>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="1-新建一个-Worker"><a href="#1-新建一个-Worker" class="headerlink" title="1. 新建一个 Worker"></a>1. 新建一个 <code>Worker</code></h4><p>登录进你的 Cloudflare 账号，然后进入 <code>Workers</code> App (Menu -&gt; Workers) 。</p>
+<p>然后新建一个 <code>Worker</code> ，删除原来的代码，再加入以下代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;const AllowedReferrer &#x3D; &#39;skk.moe&#39;; &#x2F;&#x2F; [&#39;skk.moe&#39;, &#39;suka.js.org&#39;] multiple domains is supported in array format</span><br><span class="line"></span><br><span class="line">addEventListener(&#39;fetch&#39;, (event) &#x3D;&gt; &#123;</span><br><span class="line">    event.respondWith(response(event));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">async function senData(event, url, uuid, user_agent, page_url) &#123;</span><br><span class="line">    const encode &#x3D; (data) &#x3D;&gt; encodeURIComponent(decodeURIComponent(data));</span><br><span class="line"></span><br><span class="line">    const getReqHeader &#x3D; (key) &#x3D;&gt; event.request.headers.get(key);</span><br><span class="line">    const getQueryString &#x3D; (name) &#x3D;&gt; &#123;</span><br><span class="line">        const pattern &#x3D; new RegExp(&#39;(^|&amp;)&#39; + name + &#39;&#x3D;([^&amp;]*)(&amp;|$)&#39;, &#39;i&#39;);</span><br><span class="line">        const r &#x3D; url.search.substr(1).match(pattern);</span><br><span class="line">        return (r !&#x3D;&#x3D; null) ? unescape(r[2]) : null;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    const reqParameter &#x3D; &#123;</span><br><span class="line">        headers: &#123;</span><br><span class="line">            &#39;Host&#39;: &#39;www.google-analytics.com&#39;,</span><br><span class="line">            &#39;User-Agent&#39;: user_agent,</span><br><span class="line">            &#39;Accept&#39;: getReqHeader(&#39;Accept&#39;),</span><br><span class="line">            &#39;Accept-Language&#39;: getReqHeader(&#39;Accept-Language&#39;),</span><br><span class="line">            &#39;Accept-Encoding&#39;: getReqHeader(&#39;Accept-Encoding&#39;),</span><br><span class="line">            &#39;Cache-Control&#39;: &#39;max-age&#x3D;0&#39;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    const pvData &#x3D; &#96;tid&#x3D;$&#123;encode(getQueryString(&#39;ga&#39;))&#125;&amp;cid&#x3D;$&#123;uuid&#125;&amp;dl&#x3D;$&#123;encode(page_url)&#125;&amp;uip&#x3D;$&#123;getReqHeader(&#39;CF-Connecting-IP&#39;)&#125;&amp;ua&#x3D;$&#123;user_agent&#125;&amp;dt&#x3D;$&#123;encode(getQueryString(&#39;dt&#39;))&#125;&amp;de&#x3D;$&#123;encode(getQueryString(&#39;de&#39;))&#125;&amp;dr&#x3D;$&#123;encode(getQueryString(&#39;dr&#39;))&#125;&amp;ul&#x3D;$&#123;getQueryString(&#39;ul&#39;)&#125;&amp;sd&#x3D;$&#123;getQueryString(&#39;sd&#39;)&#125;&amp;sr&#x3D;$&#123;getQueryString(&#39;sr&#39;)&#125;&amp;vp&#x3D;$&#123;getQueryString(&#39;vp&#39;)&#125;&#96;;</span><br><span class="line"></span><br><span class="line">    const perfData &#x3D; &#96;plt&#x3D;$&#123;getQueryString(&#39;plt&#39;)&#125;&amp;dns&#x3D;$&#123;getQueryString(&#39;dns&#39;)&#125;&amp;pdt&#x3D;$&#123;getQueryString(&#39;pdt&#39;)&#125;&amp;rrt&#x3D;$&#123;getQueryString(&#39;rrt&#39;)&#125;&amp;tcp&#x3D;$&#123;getQueryString(&#39;tcp&#39;)&#125;&amp;srt&#x3D;$&#123;getQueryString(&#39;srt&#39;)&#125;&amp;dit&#x3D;$&#123;getQueryString(&#39;dit&#39;)&#125;&amp;clt&#x3D;$&#123;getQueryString(&#39;clt&#39;)&#125;&#96;</span><br><span class="line"></span><br><span class="line">    const pvUrl &#x3D; &#96;https:&#x2F;&#x2F;www.google-analytics.com&#x2F;collect?v&#x3D;1&amp;t&#x3D;pageview&amp;$&#123;pvData&#125;&amp;z&#x3D;$&#123;getQueryString(&#39;z&#39;)&#125;&#96;;</span><br><span class="line">    const perfUrl &#x3D; &#96;https:&#x2F;&#x2F;www.google-analytics.com&#x2F;collect?v&#x3D;1&amp;t&#x3D;timing&amp;$&#123;pvData&#125;&amp;$&#123;perfData&#125;&amp;z&#x3D;$&#123;getQueryString(&#39;z&#39;)&#125;&#96;</span><br><span class="line"></span><br><span class="line">    await fetch(pvUrl, reqParameter);</span><br><span class="line">    await fetch(perfUrl, reqParameter);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async function response(event) &#123;</span><br><span class="line">    const url &#x3D; new URL(event.request.url);</span><br><span class="line"></span><br><span class="line">    const getReqHeader &#x3D; (key) &#x3D;&gt; event.request.headers.get(key);</span><br><span class="line"></span><br><span class="line">    const Referer &#x3D; getReqHeader(&#39;Referer&#39;);</span><br><span class="line">    const user_agent &#x3D; getReqHeader(&#39;User-Agent&#39;);</span><br><span class="line">    const ref_host &#x3D; (() &#x3D;&gt; &#123;	</span><br><span class="line">        try &#123;</span><br><span class="line">            return new URL(Referer).hostname;</span><br><span class="line">        &#125; catch (e) &#123;</span><br><span class="line">            return &quot;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)();</span><br><span class="line"></span><br><span class="line">    let needBlock &#x3D; false;</span><br><span class="line"></span><br><span class="line">    needBlock &#x3D; (!ref_host || ref_host &#x3D;&#x3D;&#x3D; &#39;&#39; || !user_agent || !url.search.includes(&#39;ga&#x3D;UA-&#39;)) ? true : false;</span><br><span class="line"></span><br><span class="line">    if (typeof AllowedReferrer !&#x3D;&#x3D; &#39;undefined&#39; &amp;&amp; AllowedReferrer !&#x3D;&#x3D; null &amp;&amp; AllowedReferrer) &#123;</span><br><span class="line">      let _AllowedReferrer &#x3D; AllowedReferrer;</span><br><span class="line"></span><br><span class="line">      if (!Array.isArray(AllowedReferrer)) _AllowedReferrer &#x3D; [_AllowedReferrer];</span><br><span class="line">    </span><br><span class="line">      const rAllowedReferrer &#x3D; new RegExp(_AllowedReferrer.join(&#39;|&#39;), &#39;g&#39;);</span><br><span class="line"></span><br><span class="line">      needBlock &#x3D; (!rAllowedReferrer.test(ref_host)) ? true : false;</span><br><span class="line">      console.log(_AllowedReferrer, rAllowedReferrer, ref_host);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (needBlock) &#123;</span><br><span class="line">        return new Response(&#39;403 Forbidden&#39;, &#123;</span><br><span class="line">            headers: &#123; &#39;Content-Type&#39;: &#39;text&#x2F;html&#39; &#125;,</span><br><span class="line">            status: 403,</span><br><span class="line">            statusText: &#39;Forbidden&#39;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const getCookie &#x3D; (name) &#x3D;&gt; &#123;</span><br><span class="line">        const pattern &#x3D; new RegExp(&#39;(^| )&#39; + name + &#39;&#x3D;([^;]*)(;|$)&#39;);</span><br><span class="line">        const r &#x3D; (getReqHeader(&#39;cookie&#39;) || &#39;&#39;).match(pattern);</span><br><span class="line">        return (r !&#x3D;&#x3D; null) ? unescape(r[2]) : null;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    const createUuid &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">        let s &#x3D; [];</span><br><span class="line">        const hexDigits &#x3D; &#39;0123456789abcdef&#39;;</span><br><span class="line">        for (let i &#x3D; 0; i &lt; 36; i++) &#123;</span><br><span class="line">            s[i] &#x3D; hexDigits.substr(Math.floor(Math.random() * 0x10), 1);</span><br><span class="line">        &#125;</span><br><span class="line">        s[14] &#x3D; &#39;4&#39;; &#x2F;&#x2F; bits 12-15 of the time_hi_and_version field to 0010</span><br><span class="line">        s[19] &#x3D; hexDigits.substr((s[19] &amp; 0x3) | 0x8, 1); &#x2F;&#x2F; bits 6-7 of the clock_seq_hi_and_reserved to 01</span><br><span class="line">        s[8] &#x3D; s[13] &#x3D; s[18] &#x3D; s[23] &#x3D; &#39;-&#39;;</span><br><span class="line"></span><br><span class="line">        return s.join(&#39;&#39;);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    const _uuid &#x3D; getCookie(&#39;uuid&#39;);</span><br><span class="line">    const uuid &#x3D; (_uuid) ? _uuid : createUuid();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; To sent data to google analytics after response id finished</span><br><span class="line">    event.waitUntil(senData(event, url, uuid, user_agent, Referer));</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Return an 204 to speed up: No need to download a gif</span><br><span class="line">    let response &#x3D; new Response(null, &#123;</span><br><span class="line">        status: 204,</span><br><span class="line">        statusText: &#39;No Content&#39;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    if (!_uuid) response.headers.set(&#39;Set-Cookie&#39;, &#96;uuid&#x3D;$&#123;uuid&#125;; Expires&#x3D;$&#123;new Date((new Date().getTime() + 365 * 86400 * 30 * 1000)).toGMTString()&#125;; Path&#x3D;&#39;&#x2F;&#39;;&#96;);</span><br><span class="line"></span><br><span class="line">    return response</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>保存、应用即可。</p>
+<h4 id="2-插入对应-JS-到网站"><a href="#2-插入对应-JS-到网站" class="headerlink" title="2. 插入对应 JS 到网站"></a>2. 插入对应 JS 到网站</h4><p>插入以下文本到你的网站的 <code>&lt;/head&gt;</code> 里，注意将默认信息换成是你自己的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">  window.ga_tid &#x3D; &quot;UA-XXXXX-Y&quot;; &#x2F;&#x2F; The trackerID of your site.</span><br><span class="line">  window.ga_api &#x3D; &quot;https:&#x2F;&#x2F;example.com&#x2F;xxx&#x2F;&quot;; &#x2F;&#x2F; The route of your cloudflare workers you just registered before.</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;cfga@1.0.1&quot; async&gt;&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>关于 <code>ga_tid</code> 应该不用说，Google Analytics 的 Track ID ，在 [管理 -&gt; 跟踪信息 -&gt; 跟踪代码] 主可以找到。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20191221210306.jpg" alt=""></p>
+<p><code>ga_api</code> 后跟刚刚创建 Worker 的路径，类似 <code>workername.yourname.worker.dev</code> 的形式，可以直接在这获取。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20191221210613.jpg" alt=""></p>
+<p>如果你也使用 Hexo ，只需在<strong>配置文件</strong>的类似 <code>/layout/_partial/</code> 内会有一个 <code>head</code> 为文件名的文件，在块 <code>&lt;/head&gt;</code> 下加入，在下次 Generate 的时候就会给每个页面添加上那一段代码了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20191221210805.jpg" alt=""></p>
+<hr>
+<h3 id="完成"><a href="#完成" class="headerlink" title="完成"></a>完成</h3><p>按照上述步骤走下来，不出意料已经可以完成了。</p>
+<p>你可以打开监测网站的一个页面，看看 Google Analytics 是否有实时访问记录。</p>
+<p>Ended. </p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">This article was last updated on <span id="date-expire-num"></span> days ago, and the information described in the article may have changed.</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-02-26");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">Published at&nbsp;<time datetime="2019-12-21T08:46:50.000Z" itemprop="datePublished">2019-12-21</time>
+
+    , Updated at&nbsp;<time datetime="2020-02-26T05:10:19.551Z" itemprop="dateModified">2020-02-26</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E7%AC%94%E8%AE%B0%E6%9C%AC/'>笔记本</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/SEO/" rel="tag">#&nbsp;SEO</a>
+
+<a class="post-tags-list-item" href="/tags/Analytics/" rel="tag">#&nbsp;Analytics</a>
+
+<a class="post-tags-list-item" href="/tags/Cloudflare/" rel="tag">#&nbsp;Cloudflare</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+        <li class="page-item page-prev">
+            <a href="/outlook/n3ro/" rel="prev">
+                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">IPLC 内网专线机场 | N3ro | 机场推荐</div>
+            </a>
+        </li>
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/post/use-jsdelivr-speed-up-static-files-visits/" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">jsDelivr | 免费加速图片等网站静态资源</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://test.ichr.ml">ChrAlpha 的实验室</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.3 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>

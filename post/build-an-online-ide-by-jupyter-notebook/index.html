@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>搭建一个在线 IDE，Jupyter Notebook 帮你快速构建 | ChrAlpha 的实验室</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/img/suka-favicon.ico">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+
+
+
+    <!-- Prettify Theme -->
+    
+    <link rel="preload" href="/css/highlight/github.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/css/highlight/github.min.css"></noscript>
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="ChrAlpha 的实验室"><meta name="msapplication-starturl" content="https://test.ichr.ml"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ChrAlpha 的实验室"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="搭建一个在线 IDE，Jupyter Notebook 帮你快速构建 | ChrAlpha 的实验室"><meta property="og:site_name" content="ChrAlpha 的实验室"><meta property="og:type" content="article"><meta property="og:url" content="https://test.ichr.ml/post/build-an-online-ide-by-jupyter-notebook/"><meta property="og:locale" content="en"><meta name="description" content="过年探亲，总会是一件很惬意的事情。但是碰巧不巧，这年来了点状况，各路返工返校全部延后。看着呆在家里快成一条死鱼的自己，无奈只有一台手机 &#x2F; iPad，完全与生产力搭不上边。不急，如果你折腾了我即将介绍的东西，那只要有一个浏览器，就能在任何地方编写、运行代码；如果没有，那你也可以把自己关在家折腾一天，把所有坑全部踩一遍，这样减少人口流动，也算是对抗疫做些贡献。 - ChrAlpha - ChrAlpha 的实验室"><meta name="keywords" content="jupyter, jupyter notebook, IDE, python, 搭建, 自建, 教程"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200209161214.PNG"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200209161216.PNG"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200209161215.png"><meta property="article:published_time" content="2020-02-09T08:46:17.000Z"><meta property="article:modified_time" content="2020-02-28T13:01:12.904Z"><meta property="og:updated_time" content="2020-02-28T13:01:12.904Z"><meta property="article:author" content="ChrAlpha"><meta property="article:tag" content="jupyter, jupyter notebook, IDE, python, 搭建, 自建, 教程"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://test.ichr.ml/post/build-an-online-ide-by-jupyter-notebook/">
+
+    <meta name="generator" content="Hexo 4.2.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://test.ichr.ml/post/build-an-online-ide-by-jupyter-notebook/",
+    "@type": "BlogPosting",
+    "logo": "https://test.ichr.ml/img/suka-favicon.ico",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://test.ichr.ml/post/build-an-online-ide-by-jupyter-notebook/"
+    },
+    "headline": "搭建一个在线 IDE，Jupyter Notebook 帮你快速构建 | ChrAlpha 的实验室",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://test.ichr.ml/img/suka-favicon.ico"
+    },
+    
+    "datePublished": "2020-02-09T08:46:17.000Z",
+    "dateModified": "2020-02-28T13:01:12.904Z",
+    "author": {
+        "@type": "Person",
+        "name": "ChrAlpha",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/default_avatar.png"
+        },
+        "description": "Only for test."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "ChrAlpha 的实验室",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/suka-favicon.ico"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://test.ichr.ml/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "jupyter, jupyter notebook, IDE, python, 搭建, 自建, 教程",
+    "description": "过年探亲，总会是一件很惬意的事情。但是碰巧不巧，这年来了点状况，各路返工返校全部延后。看着呆在家里快成一条死鱼的自己，无奈只有一台手机 / iPad，完全与生产力搭不上边。不急，如果你折腾了我即将介绍的东西，那只要有一个浏览器，就能在任何地方编写、运行代码；如果没有，那你也可以把自己关在家折腾一天，把所有坑全部踩一遍，这样减少人口流动，也算是对抗疫做些贡献。 - ChrAlpha - ChrAlpha 的实验室"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">ChrAlpha 的实验室</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                Only for test.
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">Home</a>
+    
+    
+        <a href="/archives/" class="navbar-link">Archives</a>
+    
+    
+        <a href="/search" class="navbar-link">Search</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">Share</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=ChrAlpha 的实验室&url=https://test.ichr.ml&pic=https://test.ichr.ml/img/suka-favicon.ico&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=ChrAlpha 的实验室&url=https://test.ichr.ml&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml&title=搭建一个在线 IDE，Jupyter Notebook 帮你快速构建" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=搭建一个在线 IDE，Jupyter Notebook 帮你快速构建&summary=&pics=https://test.ichr.ml/img/suka-favicon.ico&url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://test.ichr.ml&text=搭建一个在线 IDE，Jupyter Notebook 帮你快速构建" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACPElEQVR42u3awU7EMAxF0f7/T8OKBSjxu+4UMcS3G2DEpKdS3Tq2r49/cFwiRYoU+QbIqzhW/7P73rfFi7+/fkfnFTkWubxpF5+vkLvPdxfWOa/I2cifi64ACbdac4dI5xUpskKmG371QK/WECnyCeQugKokYYX81cAReRSSPHRTolEFSYV5OQsSeRyS3vxP/3xstyjyKGQsGm0SDFpMSIHySFVN5FHIzklJ4pGKBaSIIHI2knxhl7zSpDYlwNviq8jxyApcJbKpSEqCc/niEDkWmQpR3QIrQaBirMjxyDvFpqqA0LkYtBETOQbZbUxWGzbSBMBrihyN3CUZ3cY8TUh2L4mYBYk8Hpka6GkQiQwqpaJBa1BE5Bgk3bh3hpa6RVY0UCfyeCRNIhKMDIGQtWL3QeQIZCpQdR7aqchAgk+kyCrBpUGQHvzVujHBEDkKWQ22kcSgU4CtGlXtLq3Io5HkRqcNJFJcIMEnci6SNJa6g0nVxdDEQ+RcZNVcSokxeQmQ4c6Y9IochewERzfpvXMRaHhJ5NHIzuBG1WBKCQdpUIkU+cQgUkLTohXqPogchSRNUBIQdxpMcVBE5GhkZ4PfGahLjdHlGiJHItPRaWam4moaRo4FK5EjkHcGO1KiTBqkVdFApMhuwKQhvLuBI1JkaoCS4kFnoI42RUWK7CSyVfKbGqekKf9S4Igcg6RNdNLYTy8QkSLTTU9QqcHUKVqJFNkpJN0dNiaDoC/tFkUehXznQ6RIkSL/8PgEygW2lfg2DkYAAAAASUVORK5CYII=" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">搭建一个在线 IDE，Jupyter Notebook 帮你快速构建</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/img/default_avatar.png" src="/img/suka-lazyload.gif" alt="ChrAlpha's Avatar">
+        <span>2020-02-09</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E7%AC%94%E8%AE%B0%E6%9C%AC/">笔记本</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">Share the post</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=搭建一个在线 IDE，Jupyter Notebook 帮你快速构建&url=https://test.ichr.ml/post/build-an-online-ide-by-jupyter-notebook/&pic=https://test.ichr.ml/img/suka-favicon.ico&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=搭建一个在线 IDE，Jupyter Notebook 帮你快速构建&url=https://test.ichr.ml/post/build-an-online-ide-by-jupyter-notebook/&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml/post/build-an-online-ide-by-jupyter-notebook/" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://test.ichr.ml/post/build-an-online-ide-by-jupyter-notebook/" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml/post/build-an-online-ide-by-jupyter-notebook/&title=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=ChrAlpha 的实验室&summary=&pics=https://test.ichr.ml/img/suka-favicon.ico&url=https://test.ichr.ml/post/build-an-online-ide-by-jupyter-notebook/" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://test.ichr.ml/post/build-an-online-ide-by-jupyter-notebook/&text=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACPElEQVR42u3awU7EMAxF0f7/T8OKBSjxu+4UMcS3G2DEpKdS3Tq2r49/cFwiRYoU+QbIqzhW/7P73rfFi7+/fkfnFTkWubxpF5+vkLvPdxfWOa/I2cifi64ACbdac4dI5xUpskKmG371QK/WECnyCeQugKokYYX81cAReRSSPHRTolEFSYV5OQsSeRyS3vxP/3xstyjyKGQsGm0SDFpMSIHySFVN5FHIzklJ4pGKBaSIIHI2knxhl7zSpDYlwNviq8jxyApcJbKpSEqCc/niEDkWmQpR3QIrQaBirMjxyDvFpqqA0LkYtBETOQbZbUxWGzbSBMBrihyN3CUZ3cY8TUh2L4mYBYk8Hpka6GkQiQwqpaJBa1BE5Bgk3bh3hpa6RVY0UCfyeCRNIhKMDIGQtWL3QeQIZCpQdR7aqchAgk+kyCrBpUGQHvzVujHBEDkKWQ22kcSgU4CtGlXtLq3Io5HkRqcNJFJcIMEnci6SNJa6g0nVxdDEQ+RcZNVcSokxeQmQ4c6Y9IochewERzfpvXMRaHhJ5NHIzuBG1WBKCQdpUIkU+cQgUkLTohXqPogchSRNUBIQdxpMcVBE5GhkZ4PfGahLjdHlGiJHItPRaWam4moaRo4FK5EjkHcGO1KiTBqkVdFApMhuwKQhvLuBI1JkaoCS4kFnoI42RUWK7CSyVfKbGqekKf9S4Igcg6RNdNLYTy8QkSLTTU9QqcHUKVqJFNkpJN0dNiaDoC/tFkUehXznQ6RIkSL/8PgEygW2lfg2DkYAAAAASUVORK5CYII=" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Jupyter-Notebook-介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">Jupyter Notebook 介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Jupyter-Notebook-上手"><span class="post-toc-number">2.</span> <span class="post-toc-text">Jupyter Notebook 上手</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#开发环境安装"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">开发环境安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#工具配置"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">工具配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Nginx-端口映射"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">Nginx 端口映射</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#保持后台运行"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">保持后台运行</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#其他语言配置"><span class="post-toc-number">3.</span> <span class="post-toc-text">其他语言配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#后"><span class="post-toc-number">4.</span> <span class="post-toc-text">后</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <blockquote>
+<p>本文同步载于 <a href="https://sspai.com/post/58789" target="_blank" rel="noopener">少数派</a> ，部分 markdown 语法在该页面渲染失败。</p>
+</blockquote>
+<p>其实本文和以前 <a href="/post/build-an-online-ide-by-jupyter-notebook-archived/">那篇文章</a> 操作十分类似，这次只是稍微解释的详细一点<del>（废话多一点）</del>。</p>
+<p>以下是原文。</p>
+<a id="more"></a>
+
+<hr>
+<p>过年探亲，总会是一件很惬意的事情。但是碰巧不巧，这年来了点状况，各路返工返校全部延后。看着呆在家里快成一条死鱼的自己，无奈只有一台手机 / iPad，完全与生产力搭不上边。不急，如果你折腾了我即将介绍的东西，那只要有一个浏览器，就能在任何地方编写、运行代码；如果没有，那你也可以把自己关在家折腾一天，把所有坑全部踩一遍，这样减少人口流动，也算是对抗疫做些贡献。</p>
+<h2 id="Jupyter-Notebook-介绍"><a href="#Jupyter-Notebook-介绍" class="headerlink" title="Jupyter Notebook 介绍"></a>Jupyter Notebook 介绍</h2><p>回到正题。</p>
+<p>什么是 IDE？IDE 全称是<strong>集成开发环境</strong> (Integrated Development Environment) ，是一种辅助开发人员的工具。在该工具内可以编辑源代码文件、并编译打包成可执行的程序。一个 IDE 通常包括：编程语言编辑器、自动构建工具、调试器，有的还包含编译器 / 解释器 <a href="https://en.wikipedia.org/wiki/Integrated_development_environment" target="_blank" rel="noopener">^1</a>。</p>
+<p>所以，目标人群很清晰。如果你完全对编程不感兴趣、不想「手玩」几个源代码的话，你可以关闭本页面了。</p>
+<p>OK，接下来再来看 Jupyter Notebook 。Jupyter Notebook 的前身是 iPython Notebook ，而在 2014 年 Jupyter 正式从 iPython 中衍生出来，成为一个独立的项目，为数十种编程语言的交互式计算提供开源软件、开放标准和服务。Juypter Notebook 则是一个基于 Web 端的交互式计算环境，用于创建 Jupyter Notebook 文档 (.ipynb) ，由一个个单元格组成，单元格可以包含代码、Markdown 文本、数学、图标和富媒体 <a href="https://en.wikipedia.org/wiki/Project_Jupyter" target="_blank" rel="noopener">^2</a>。看得出来，在这样的支持下，我们可以一边编写、运行代码，一边用 Markdown 做注释、记笔记，十分方便。</p>
+<h2 id="Jupyter-Notebook-上手"><a href="#Jupyter-Notebook-上手" class="headerlink" title="Jupyter Notebook 上手"></a>Jupyter Notebook 上手</h2><p>既然是要运行在网页端，一台云服务器肯定是不能缺席的。至于云服务器的购买建议就不在本文的探讨范围内了，大家根据自身条件和需求判断。</p>
+<p>到这里我默认大家已经购买好、并通过 SSH 连接上了远程服务器。</p>
+<p>由于我正在学习 Python ，就拿这门语言的配置举例。其他语言也遵循 环境 - 工具配置 的主流程，会在文末是稍微提一下。</p>
+<h3 id="开发环境安装"><a href="#开发环境安装" class="headerlink" title="开发环境安装"></a>开发环境安装</h3><p>众所周知，Python 通过模块化特性，避免了许多「造轮子」等行为，提升了编程效率。而实际使用中，难免需要调用各种第三方模块。这时我们可以通过一个 Package 来一次性安装许多常用模块，<a href="https://www.anaconda.com/" target="_blank" rel="noopener">Anaconda</a> 就是这样一个基于 Python 的数据处理和科学计算平台，它已经内置了许多非常有用的第三方库。我们可以选择直接安装 Anaconda 来跳过安装许多模块、依赖的步骤。但是，Anaconda 过于强大的同时避免不了过于庞大，所以我选取的是 <a href="https://conda.io/miniconda.html" target="_blank" rel="noopener">Miniconda</a> ，可以理解为 Anaconda 的精简版，去除了许多也许有用但并不是非常常用的模块，体积也大大缩减。</p>
+<p>我们使用官方提供的一键脚本安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh</span><br><span class="line"></span><br><span class="line">bash Miniconda3-latest-Linux-x86_64.sh</span><br></pre></td></tr></table></figure>
+
+<p>然后是安装 IPython 和 Jupyter ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda install ipython</span><br><span class="line"></span><br><span class="line">conda install jupyter</span><br></pre></td></tr></table></figure>
+
+<h3 id="工具配置"><a href="#工具配置" class="headerlink" title="工具配置"></a>工具配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jupypter notebook --generate-config</span><br></pre></td></tr></table></figure>
+
+<p>执行上述命令来在 <code>~/.jupyter</code> 目录下创建一个 <code>jupyter_notebook_config.py</code> 的配置文件。</p>
+<p>用编辑器打开这个配置文件。太长？没关系，我们只需要关注几个地方，其他使用默认配置即可。</p>
+<ul>
+<li><p><code>c.NotebookApp.port</code> </p>
+<p>这个是服务将要运行在的本地端口，填写一个还没有被服务占用的端口。然后 IP 默认是本机 IP (localhost) ，后面也是通过 Nginx 端口映射到本地端口，所以不用管。</p>
+</li>
+<li><p><code>c.NotebookApp.allow_origin</code> </p>
+<p>因为我们需要外网访问，所以请设置为<strong>允许任意</strong> (*) 即 <code>c.NotebookApp.allow_origin = &#39;*&#39;</code> 。</p>
+</li>
+<li><p><code>c.NotebookApp.open_browser</code> </p>
+<p>由于远程服务器大多不安装图形界面，自然也不会有浏览器，这里要设置为 <code>False</code> 。这样每次启动服务的时候就不会尝试打开浏览器了，也就不会报错（找不到浏览器）。</p>
+</li>
+<li><p><code>c.NotebookApp.notebook_dir</code> </p>
+<p>这里设置 Notebook 的文件目录，默认是家目录 (~) ，可以设置为一个专门存放代码的目录。</p>
+</li>
+<li><p><code>c.NotebookApp.allow_root</code> </p>
+<p>出于安全考量，Jupyter Notebook 默认禁止了在 root 用户下运行，也不建议这么做。你可以新建一个账户来运行 Jupyter Notebook ，或者将这里设为 <code>True</code> ，这样就允许 root 用户运行了。</p>
+</li>
+</ul>
+<p>单独拎出来提一下关于密码。由于这项服务是要暴露在公网的，你或许也不想任何人都可以使用你的计算资源，或者查看、修改你的源码文件，这时可以给 Jupyter Notebook 设置一个密码。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c <span class="string">"import IPython;print(IPython.lib.passwd())"</span></span><br></pre></td></tr></table></figure>
+
+<p>执行上述命令，根据提示输入你想设置的密码。然后将最后生成的以 <code>sha1</code> 开头的文本保存下来，这是你的密码经过散列函数加密后得到的内容。</p>
+<p>接着在配置文件中找到这两行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c.NotebookApp.password = <span class="string">u'sha1:xxx'</span> <span class="comment"># 刚刚得到的那个加密密码</span></span><br><span class="line">c.NotebookApp.password_required = <span class="literal">True</span> <span class="comment"># 需要密码登陆</span></span><br></pre></td></tr></table></figure>
+
+<p>经过一点点配置后，在终端中执行 <code>jupyter notebook</code> 就可以启动服务了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200209161214.PNG" alt=""></p>
+<h3 id="Nginx-端口映射"><a href="#Nginx-端口映射" class="headerlink" title="Nginx 端口映射"></a>Nginx 端口映射</h3><p>到上一步为止，我们已经可以通过 <code>{服务器 ip}:{端口号}</code> 的形式访问了（如果开启了防火墙则需要允许特定端口访问），但使用这种形式访问不如用域名访问那般友好，而且不支持 HTTPS 也会带来安全隐患。</p>
+<p>这时我们可以借助 <strong>Nginx 反向代理</strong> 将域名映射到本机制定端口。<a href="https://www.nginx.com/" target="_blank" rel="noopener">Nginx</a> 是一个异步框架的网页服务器，高效、并发能力强。我们先来安装 Nginx ，以 CentOS 为例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">sudo yum install nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启</span></span><br><span class="line">sudo systemctl start nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看状态</span></span><br><span class="line">sudo systemctl status nginx</span><br></pre></td></tr></table></figure>
+
+<p>确认开启无误后，我们修改 Nginx 配置文件，让其监听指定域名并重定向到本机 Jupyter Notebook 的服务端口。</p>
+<p>先 upstream 声明：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">upstream</span> jupyter-notebook &#123;</span><br><span class="line">    server 127.0.0.1:&#123;本机 Jupyter Notebook 端口&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样后面就可以使用 <code>http://jupyter-notebook</code> 统一调用 Jupyter Notebook 服务地址了。</p>
+<p>然后是 server 部分，假设我们使用 <code>jupyter.domain.com</code> 来访问 Jupyter Notebook 。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">	<span class="attribute">listen</span> <span class="number">443</span> ssl http2;</span><br><span class="line">    <span class="attribute">server_name</span> jupyter.domain.com;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># SSL &amp; https start</span></span><br><span class="line">    </span><br><span class="line">    <span class="attribute">if</span> (<span class="variable">$server_port</span> !<span class="regexp">~ 443)</span>&#123;</span><br><span class="line">        <span class="attribute">rewrite</span><span class="regexp"> ^(/.*)$</span> https://<span class="variable">$host</span><span class="variable">$1</span> <span class="literal">permanent</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">#HTTP_TO_HTTPS_END</span></span><br><span class="line">    </span><br><span class="line">    <span class="attribute">ssl_certificate</span>    /path/to/your/ssl_certificate/xxx.pem;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span>    /path/to/your/ssl_certificate_key/xxx.key;</span><br><span class="line">    <span class="attribute">ssl_protocols</span> TLSv1.<span class="number">1</span> TLSv1.<span class="number">2</span> TLSv1.<span class="number">3</span>;</span><br><span class="line">    <span class="attribute">ssl_ciphers</span> ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;</span><br><span class="line">    <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">ssl_session_cache</span> shared:SSL:<span class="number">10m</span>;</span><br><span class="line">    <span class="attribute">ssl_session_timeout</span> <span class="number">10m</span>;</span><br><span class="line">    <span class="comment"># SSL &amp; https ends</span></span><br><span class="line">    </span><br><span class="line">    <span class="attribute">error_page</span> <span class="number">497</span>  https://<span class="variable">$host</span><span class="variable">$request_uri</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Nginx 反向代理到本地端口</span></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">    	<span class="attribute">proxy_pass</span> http://jupyter-notebook;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>      Host <span class="variable">$host</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#一键申请SSL证书验证目录相关设置</span></span><br><span class="line">    <span class="attribute">location</span> <span class="regexp">~ \.well-known</span>&#123;</span><br><span class="line">        <span class="attribute">allow</span> all;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">location</span> <span class="regexp">~ /api/kernels/</span> &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span>            http://jupyter-notebook;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>      Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="comment"># websocket support</span></span><br><span class="line">        <span class="attribute">proxy_http_version</span>    <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>      Upgrade <span class="string">"websocket"</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>      Connection <span class="string">"Upgrade"</span>;</span><br><span class="line">        <span class="attribute">proxy_read_timeout</span>    <span class="number">86400</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="attribute">location</span> <span class="regexp">~ /terminals/</span> &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span>            http://jupyter-notebook;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>      Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="comment"># websocket support</span></span><br><span class="line">        <span class="attribute">proxy_http_version</span>    <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>      Upgrade <span class="string">"websocket"</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>      Connection <span class="string">"Upgrade"</span>;</span><br><span class="line">        <span class="attribute">proxy_read_timeout</span>    <span class="number">86400</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>第二、第三行为监听端口，HTTP 为 80 端口，HTTPS 为 443 端口</p>
+</li>
+<li><p>第四行为希望监听到的域名</p>
+</li>
+<li><p>13 - 19 行为 SSL 证书设置，需要注意13 - 14 行为你的证书路径，需要是<strong>绝对路径</strong> </p>
+</li>
+<li><p>后面则是转发相关的配置</p>
+</li>
+</ul>
+<p>再次终端输入 <code>jupyter notebook</code> 运行服务，在浏览器中输入域名，不出意料就能看到输入密码的页面了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200209161216.PNG" alt=""></p>
+<h3 id="保持后台运行"><a href="#保持后台运行" class="headerlink" title="保持后台运行"></a>保持后台运行</h3><p>现在程序一直是占用着终端的，而且如果关闭终端连接就会中断服务。我们需要让 Jupyter Notebook 静静地呆在后台运行。</p>
+<p>先创建 <code>jupyter.log</code> 日志文件记录运行状态。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch ~/.jupyter/jupyter.log</span><br></pre></td></tr></table></figure>
+
+<p>然后执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup jupyter notebook &gt; ~/.jupyter/jupyter.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>nohub</code> 表示 <code>no hang up</code> 不挂起，默默在后台运行，并将输出重载到日志文件中。</p>
+<p>此时如果要中止程序，则需要 <code>ps -A</code> 检查所有进程 pid，然后执行 <code>kill {pid}</code> 来中止服务。</p>
+<h2 id="其他语言配置"><a href="#其他语言配置" class="headerlink" title="其他语言配置"></a>其他语言配置</h2><p>如果你学习的不是 Python 语言，但只要是在 <a href="https://github.com/jupyter/jupyter/wiki/Jupyter-kernels" target="_blank" rel="noopener">这个页面</a> 提到过的语言，都是支持的（Jupyter 的版本达到要求的前提下）。在安装好 conda 后，可以使用命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install &#123;Name&#125;</span><br></pre></td></tr></table></figure>
+
+<p>来安装其他 kernel。</p>
+<p>比如拿 C++ 举例，只需要执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install xeus-cling</span><br></pre></td></tr></table></figure>
+
+<p><strong>但是！</strong>为了防止某些无法理解的错误发生（如不同环境间的冲突或某些库不兼容），请考虑新建一个虚拟环境，然后在里面单独安装。如创建一个名为 <code>cling</code> 的虚拟环境，当然也可以是别的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 新建环境</span></span><br><span class="line">conda create -n cling</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换到新建的虚拟环境</span></span><br><span class="line">conda activate cling</span><br><span class="line"><span class="comment"># 出错可以尝试 source activate cling</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 给新的环境安装 jupyter notebook</span></span><br><span class="line">conda install jupyter notebook</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 xeus-cling (C++)</span></span><br><span class="line">conda install xeus-cling</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查是否成功安装 kernel</span></span><br><span class="line">jupyter kernelspec list</span><br></pre></td></tr></table></figure>
+
+<p>如果未出错则会显示目前已经（在独立环境中和主环境中）安装的 kernel ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python3    /anaconda3/envs/cling/share/jupyter/kernels/python3</span><br><span class="line">xcpp11     /anaconda3/envs/cling/share/jupyter/kernels/xcpp11</span><br><span class="line">xcpp14     /anaconda3/envs/cling/share/jupyter/kernels/xcpp14</span><br><span class="line">xcpp17     /anaconda3/envs/cling/share/jupyter/kernels/xcpp17</span><br></pre></td></tr></table></figure>
+
+<p>这时候到 Web 端，新建操作就会可以选择多种语言了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200209161215.png" alt="图片来源网络"></p>
+<h2 id="后"><a href="#后" class="headerlink" title="后"></a>后</h2><p>全文到这里就要暂告一段落了。我们讨论了：</p>
+<ul>
+<li>Jupyter Notebook 的安装和配置</li>
+<li>将 Jupyter Notebook 借助 Nginx 得以在公网访问</li>
+<li>通过 Conda 管理多语言配置</li>
+</ul>
+<p>限于篇幅，这次重点介绍搭建的过程，而对于许多工具背后的设计理念和哲学并没有深究。</p>
+<p>回顾 Jupyter Notebook，Web 端、方便、交互式、Markdown 、多元……，这些特点一直伴随着它。可是，你真的需要它吗？</p>
+<p>需要明确的是，对于工具的探索终究是为了更好地服务于你，好工具的定义对于每个人都是不一样的。这款工具能够满足你的需求，能否提升效率，只有你自己说了算。而过度热忱于追求工具，淡化了任务本身，显然是一种本末倒置的行为。</p>
+<p>所以，你会来玩玩这个吗？</p>
+<hr>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">This article was last updated on <span id="date-expire-num"></span> days ago, and the information described in the article may have changed.</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-02-28");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">Published at&nbsp;<time datetime="2020-02-09T08:46:17.000Z" itemprop="datePublished">2020-02-09</time>
+
+    , Updated at&nbsp;<time datetime="2020-02-28T13:01:12.904Z" itemprop="dateModified">2020-02-28</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E7%AC%94%E8%AE%B0%E6%9C%AC/'>笔记本</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Nginx/" rel="tag">#&nbsp;Nginx</a>
+
+<a class="post-tags-list-item" href="/tags/Web/" rel="tag">#&nbsp;Web</a>
+
+<a class="post-tags-list-item" href="/tags/Jupyter-Notebook/" rel="tag">#&nbsp;Jupyter Notebook</a>
+
+<a class="post-tags-list-item" href="/tags/IDE/" rel="tag">#&nbsp;IDE</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+        <li class="page-item page-prev">
+            <a href="/post/automated-deployment-of-serverless-static-blog/" rel="prev">
+                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">初探无后端静态博客自动化部署方案</div>
+            </a>
+        </li>
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/outlook/get-a-stable-outlook-through-v2ray-and-cdn/" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">V2ray + CDN 稳定看世界</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://test.ichr.ml">ChrAlpha 的实验室</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.3 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
