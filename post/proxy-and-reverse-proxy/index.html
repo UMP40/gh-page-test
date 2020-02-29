@@ -152,7 +152,7 @@
     <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="ChrAlpha 的实验室"><meta name="msapplication-starturl" content="https://test.ichr.ml"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ChrAlpha 的实验室"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- ### The Open Graph & Twitter Card Protocol ### -->
-    <meta property="og:title" content="Proxy Server | 正向代理与反向代理 | ChrAlpha 的实验室"><meta property="og:site_name" content="ChrAlpha 的实验室"><meta property="og:type" content="article"><meta property="og:url" content="https://test.ichr.ml/post/proxy-and-reverse-proxy/"><meta property="og:locale" content="en"><meta name="description" content="看到这里的同学应该对「代理」并不陌生。无论是特别的上网技能还是 Nginx 映射本地端口，都离不开代理的特效。这次，让我们再一次看看：代理，究竟是如何运作的。并重点介绍下可能更陌生一点的「反向代理」，我们可以用反向代理干什么。 - ChrAlpha - ChrAlpha 的实验室"><meta name="keywords" content="proxy, forward proxy, reverse proxy, 代理, 正向代理, 反向代理, 分享, 浅析, 原理, 介绍"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202212115.jpg"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202184928.jpg"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202184929.jpg"><meta property="article:published_time" content="2020-02-02T17:38:36.000Z"><meta property="article:modified_time" content="2020-02-28T12:57:58.957Z"><meta property="og:updated_time" content="2020-02-28T12:57:58.957Z"><meta property="article:author" content="ChrAlpha"><meta property="article:tag" content="proxy, forward proxy, reverse proxy, 代理, 正向代理, 反向代理, 分享, 浅析, 原理, 介绍"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202212115.jpg">
+    <meta property="og:title" content="Proxy Server | 正向代理与反向代理 | ChrAlpha 的实验室"><meta property="og:site_name" content="ChrAlpha 的实验室"><meta property="og:type" content="article"><meta property="og:url" content="https://test.ichr.ml/post/proxy-and-reverse-proxy/"><meta property="og:locale" content="en"><meta name="description" content="看到这里的同学应该对「代理」并不陌生。无论是特别的上网技能还是 Nginx 映射本地端口，都离不开代理的特效。这次，让我们再一次看看：代理，究竟是如何运作的。并重点介绍下可能更陌生一点的「反向代理」，我们可以用反向代理干什么。 - ChrAlpha - ChrAlpha 的实验室"><meta name="keywords" content="proxy, forward proxy, reverse proxy, 代理, 正向代理, 反向代理, 分享, 浅析, 原理, 介绍"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202212115.jpg"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202184928.jpg"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202184929.jpg"><meta property="article:published_time" content="2020-02-02T17:38:36.000Z"><meta property="article:modified_time" content="2020-02-29T00:19:15.639Z"><meta property="og:updated_time" content="2020-02-29T00:19:15.639Z"><meta property="article:author" content="ChrAlpha"><meta property="article:tag" content="proxy, forward proxy, reverse proxy, 代理, 正向代理, 反向代理, 分享, 浅析, 原理, 介绍"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200202212115.jpg">
 
     
 
@@ -193,7 +193,7 @@
     },
     
     "datePublished": "2020-02-02T17:38:36.000Z",
-    "dateModified": "2020-02-28T12:57:58.957Z",
+    "dateModified": "2020-02-29T00:19:15.639Z",
     "author": {
         "@type": "Person",
         "name": "ChrAlpha",
@@ -459,7 +459,7 @@
 <h3 id="优势-1"><a href="#优势-1" class="headerlink" title="优势"></a>优势</h3><p>为什么需要这样的一步呢？其实许多服务器并不是十分顽强，收到过多的请求甚至可能宕机，更不用说要是被攻击了。而套上这一层反向代理，代理服务器可以将请求均衡地分配给服务器组，防止过多请求集中在一台或者几台服务器上，使其负载过大影响服务，这就叫「负载均衡」。同样地，遇到异常流量，代理可以直接拦截下来，而且代理还可以隐藏服务端的真实地址，这都起到了保护服务端的作用。</p>
 <p>反向代理不仅可以保护服务器，甚至还可以加速访问！比如代理服务器可以将一些静态资源缓存下来，如果遇到请求，就不用向服务端发送，直接返回资源，更有利于让服务端将算力、带宽集中在加载重要的地方。</p>
 <p>这里就不得不提到 CDN 了。CDN 的全称是<strong>内容分发网络</strong> (<strong>C</strong>ontent <strong>D</strong>elivery <strong>N</strong>etwork 或 <strong>C</strong>ontent <strong>D</strong>istribution <strong>N</strong>etwork) ，可以将资源缓存在多台服务器上，访问的时候从最近的服务器中获取，提供高性能的传递且降低骨干网负载。而 CDN 大多也是基于 Nginx 或者 Nginx + SNI 反向代理实现的，所以你也可以将域名指向 CDN 隐藏真实地址。</p>
-<h2 id="实践出真知"><a href="#实践出真知" class="headerlink" title="实践出真知"></a>实践出真知</h2><h3 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h3><p>我在自己的 VPS 上 <a href="/post/build-an-online-ide-by-jupyter-notebook/">搭建 Jupyter Notebook</a> 实现 Web 端编写运行 Python 代码。</p>
+<h2 id="实践出真知"><a href="#实践出真知" class="headerlink" title="实践出真知"></a>实践出真知</h2><h3 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h3><p>我在自己的 VPS 上 <a href="https://chralpha.com/post/build-an-online-ide-by-jupyter-notebook/" target="_blank" rel="noopener">搭建 Jupyter Notebook</a> 实现 Web 端编写运行 Python 代码。</p>
 <p>我配置 Jupyter Notebook 是运行在 <code>localhost:35767</code> 上的。目前我已经将 <code>jupyter.domain.com</code> 解析到该 VPS 地址上了，而从公网访问 VPS 地址都是直接发送给 Nginx 代理上的。所以我们要合理配置 Nginx 使其能够让域名转发到对应服务的端口。</p>
 <p>打开你的 Nginx 主配置文件（一般在 <code>/etc/nginx/nginx.conf</code> ，如果你也是使用宝塔的快速安装，那么会在 <code>/www/server/nginx/conf/nginx.conf</code> ）</p>
 <p>首先我们定义 upstream 内容：</p>
@@ -490,7 +490,7 @@
     <blockquote id="date-expire-notification" class="post-expired-notify">This article was last updated on <span id="date-expire-num"></span> days ago, and the information described in the article may have changed.</blockquote>
     <script>
     (function() {
-        var dateUpdate = Date.parse("2020-02-28");
+        var dateUpdate = Date.parse("2020-02-29");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -506,7 +506,7 @@
 
 <p class="post-footer-info mb-0 pt-0">Published at&nbsp;<time datetime="2020-02-02T17:38:36.000Z" itemprop="datePublished">2020-02-03</time>
 
-    , Updated at&nbsp;<time datetime="2020-02-28T12:57:58.957Z" itemprop="dateModified">2020-02-28</time>
+    , Updated at&nbsp;<time datetime="2020-02-29T00:19:15.639Z" itemprop="dateModified">2020-02-29</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
