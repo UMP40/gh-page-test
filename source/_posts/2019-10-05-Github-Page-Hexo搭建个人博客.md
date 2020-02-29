@@ -46,10 +46,10 @@ thumbnail: https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200130145231.png
 
 本系列教程分两个个片段：
 
-1. 基础搭建篇 [链接](/post/hexo-basic-set-up/)
+1. 基础搭建篇 [链接](https://chralpha.com/post/hexo-basic-set-up/)
 2. 主题美化篇
-    - nexT:  [链接](/post/hexo-theme-next-diy-configuration/) (不再维护)
-    - material-x: [链接](/post/hexo-theme-material-x-diy-configuration/) (持续更新)
+    - nexT:  [链接](https://chralpha.com/post/hexo-theme-next-diy-configuration/) (不再维护)
+    - material-x: [链接](https://chralpha.com/post/hexo-theme-material-x-diy-configuration/) (持续更新)
 
 大家按需求食用即可
 

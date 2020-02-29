@@ -80,7 +80,7 @@ purl: proxy-and-reverse-proxy
 
 ### 端口映射
 
-我在自己的 VPS 上 [搭建 Jupyter Notebook](/post/build-an-online-ide-by-jupyter-notebook/) 实现 Web 端编写运行 Python 代码。
+我在自己的 VPS 上 [搭建 Jupyter Notebook](https://chralpha.com/post/build-an-online-ide-by-jupyter-notebook/) 实现 Web 端编写运行 Python 代码。
 
 我配置 Jupyter Notebook 是运行在 `localhost:35767` 上的。目前我已经将 `jupyter.domain.com` 解析到该 VPS 地址上了，而从公网访问 VPS 地址都是直接发送给 Nginx 代理上的。所以我们要合理配置 Nginx 使其能够让域名转发到对应服务的端口。
 

@@ -93,7 +93,7 @@ purl: free-img-hosting-with-github-and-picgo
 
 ![](https://cdn.jsdelivr.net/gh/ChrAlpha/imgbag/20191020161156.png)
 
-- 关联阅读：[ChrAlpha - jsDelivr 免费加速静态资源](/post/use-jsdelivr-speed-up-static-files-visits/) 
+- 关联阅读：[ChrAlpha - jsDelivr 免费加速静态资源](https://chralpha.com/post/use-jsdelivr-speed-up-static-files-visits/) 
 
 ## 后
 
