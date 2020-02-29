@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>Cloudflare 免费指定 CDN 节点教程 | ChrAlpha 的实验室</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/img/suka-favicon.ico">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+
+
+
+    <!-- Prettify Theme -->
+    
+    <link rel="preload" href="/css/highlight/github.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/css/highlight/github.min.css"></noscript>
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="ChrAlpha 的实验室"><meta name="msapplication-starturl" content="https://test.ichr.ml"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ChrAlpha 的实验室"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="Cloudflare 免费指定 CDN 节点教程 | ChrAlpha 的实验室"><meta property="og:site_name" content="ChrAlpha 的实验室"><meta property="og:type" content="article"><meta property="og:url" content="https://test.ichr.ml/post/cloudflare-switch-to-custom-cdn-node-for-free/"><meta property="og:locale" content="en"><meta name="description" content="Cloudflare 良心的同时，免费服务变得拥堵在所难免。这时我们只能「曲线救国」，通过第三方接入来避开被「玩坏」的节点。本文就介绍一下通过第三方平台接入免费指定 Cloudflare CDN 节点的方法，稍微配置便可显著提升访问速度！ - ChrAlpha - ChrAlpha 的实验室"><meta name="keywords" content="cloudflare, cdn, 免费, 第三方, CNAME, IP, 接入, NS, cloudflare partner, 节点, dns, dnspod, 教程, 方法, 介绍, 分享"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228224855.jpg"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228213325.PNG"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228213143.PNG"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228213144.PNG"><meta property="article:published_time" content="2020-02-28T06:25:25.000Z"><meta property="article:modified_time" content="2020-02-28T23:59:38.700Z"><meta property="og:updated_time" content="2020-02-28T23:59:38.700Z"><meta property="article:author" content="ChrAlpha"><meta property="article:tag" content="cloudflare, cdn, 免费, 第三方, CNAME, IP, 接入, NS, cloudflare partner, 节点, dns, dnspod, 教程, 方法, 介绍, 分享"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228224855.jpg">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://test.ichr.ml/post/cloudflare-switch-to-custom-cdn-node-for-free/">
+
+    <meta name="generator" content="Hexo 4.2.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://test.ichr.ml/post/cloudflare-switch-to-custom-cdn-node-for-free/",
+    "@type": "BlogPosting",
+    "logo": "https://test.ichr.ml/img/suka-favicon.ico",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://test.ichr.ml/post/cloudflare-switch-to-custom-cdn-node-for-free/"
+    },
+    "headline": "Cloudflare 免费指定 CDN 节点教程 | ChrAlpha 的实验室",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228224855.jpg"
+    },
+    
+    "datePublished": "2020-02-28T06:25:25.000Z",
+    "dateModified": "2020-02-28T23:59:38.700Z",
+    "author": {
+        "@type": "Person",
+        "name": "ChrAlpha",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/default_avatar.png"
+        },
+        "description": "Only for test."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "ChrAlpha 的实验室",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://test.ichr.ml/img/suka-favicon.ico"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://test.ichr.ml/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "cloudflare, cdn, 免费, 第三方, CNAME, IP, 接入, NS, cloudflare partner, 节点, dns, dnspod, 教程, 方法, 介绍, 分享",
+    "description": "Cloudflare 良心的同时，免费服务变得拥堵在所难免。这时我们只能「曲线救国」，通过第三方接入来避开被「玩坏」的节点。本文就介绍一下通过第三方平台接入免费指定 Cloudflare CDN 节点的方法，稍微配置便可显著提升访问速度！ - ChrAlpha - ChrAlpha 的实验室"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">ChrAlpha 的实验室</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                Only for test.
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">Home</a>
+    
+    
+        <a href="/archives/" class="navbar-link">Archives</a>
+    
+    
+        <a href="/search" class="navbar-link">Search</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">Share</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=ChrAlpha 的实验室&url=https://test.ichr.ml&pic=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228224855.jpg&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=ChrAlpha 的实验室&url=https://test.ichr.ml&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml&title=Cloudflare 免费指定 CDN 节点教程" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=Cloudflare 免费指定 CDN 节点教程&summary=&pics=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228224855.jpg&url=https://test.ichr.ml" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://test.ichr.ml&text=Cloudflare 免费指定 CDN 节点教程" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACKElEQVR42u3a3U6EMBCGYe7/pvXIxCj9fho2rp2XExNW4CHplOlMr49/cFwgQYIE+QbISxxfv6/+99dNf5xfXZs8F+Rs5O2gFQ9YgRzw+/nouSBHI1XAuOBQ5xTcPRckSDfA00Bp7gsS5A7SnU8mZjWpgwTZJBjuprvwR7MgkMchk4XYK/4+vloEeQTSFo3CBZZKgtUE/0hVDeRRyDZZdZN2sqCTwZJ8cUAej1SDWSWuKqF1E7VKhEHORrYDXiWuKgjTFwQJcmcBv5rQXXKhFmO3HwaQY5FpM2gVAK7Qv5rsXbIMci7STdAucXAv1eBldIMcg3STtXtouthS19sEA+RYZLrgbwMquQdIkAk0XTglya9KUGTSC3IscnfB3zQBVFCCBJkkqQkk2UiSbBSNOmIgRyHTYkAbMMmmlDhwQB6PdB/9nYZSs0hTLwByJrIZ6E1y4Cb2ejIHOQqZNJqSzSNJMykpKIAEmSahrinqFnXJ5hKQIN1gTpryrlGffDSiSi/IMcgkcHY2drYFK5AgXcEqSXhbpPodJEiFSIr5SVHAXSuLESBHIleJZ1I4bZpKboNInQWBPBaZFPfT5nrSGHAfCZAgk8m4KQKoQHRNfZAgXVPSFeiTwlP6srcvDHI00m34cBOwayalG0hAgkw3Au8UpXYSY5Agm+amO9cUqVwjCiTItqCqmkwu2UgKWCBnI5siaJvIphtObpNpkCOR73yABAkS5B8en3eL1YRuBTKhAAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+            <div class="card-image lazyload" data-bg="url('https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228224855.jpg')"></div>
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">Cloudflare 免费指定 CDN 节点教程</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/img/default_avatar.png" src="/img/suka-lazyload.gif" alt="ChrAlpha's Avatar">
+        <span>2020-02-28</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E7%AC%94%E8%AE%B0%E6%9C%AC/">笔记本</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">Share the post</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=Cloudflare 免费指定 CDN 节点教程&url=https://test.ichr.ml/post/cloudflare-switch-to-custom-cdn-node-for-free/&pic=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228224855.jpg&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">Share to Weibo</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=Cloudflare 免费指定 CDN 节点教程&url=https://test.ichr.ml/post/cloudflare-switch-to-custom-cdn-node-for-free/&via=ChrAlpha" target="_blank" rel="external noopener noreferrer nofollow">Share to Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://test.ichr.ml/post/cloudflare-switch-to-custom-cdn-node-for-free/" target="_blank" rel="external noopener noreferrer nofollow">Share to Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://test.ichr.ml/post/cloudflare-switch-to-custom-cdn-node-for-free/" target="_blank" rel="external noopener noreferrer nofollow">Share to Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://test.ichr.ml/post/cloudflare-switch-to-custom-cdn-node-for-free/&title=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=ChrAlpha 的实验室&title=ChrAlpha 的实验室&summary=&pics=https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228224855.jpg&url=https://test.ichr.ml/post/cloudflare-switch-to-custom-cdn-node-for-free/" target="_blank" rel="external noopener noreferrer nofollow"> Share to QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://test.ichr.ml/post/cloudflare-switch-to-custom-cdn-node-for-free/&text=ChrAlpha 的实验室" target="_blank" rel="external noopener noreferrer nofollow">Share to Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACKElEQVR42u3a3U6EMBCGYe7/pvXIxCj9fho2rp2XExNW4CHplOlMr49/cFwgQYIE+QbISxxfv6/+99dNf5xfXZs8F+Rs5O2gFQ9YgRzw+/nouSBHI1XAuOBQ5xTcPRckSDfA00Bp7gsS5A7SnU8mZjWpgwTZJBjuprvwR7MgkMchk4XYK/4+vloEeQTSFo3CBZZKgtUE/0hVDeRRyDZZdZN2sqCTwZJ8cUAej1SDWSWuKqF1E7VKhEHORrYDXiWuKgjTFwQJcmcBv5rQXXKhFmO3HwaQY5FpM2gVAK7Qv5rsXbIMci7STdAucXAv1eBldIMcg3STtXtouthS19sEA+RYZLrgbwMquQdIkAk0XTglya9KUGTSC3IscnfB3zQBVFCCBJkkqQkk2UiSbBSNOmIgRyHTYkAbMMmmlDhwQB6PdB/9nYZSs0hTLwByJrIZ6E1y4Cb2ejIHOQqZNJqSzSNJMykpKIAEmSahrinqFnXJ5hKQIN1gTpryrlGffDSiSi/IMcgkcHY2drYFK5AgXcEqSXhbpPodJEiFSIr5SVHAXSuLESBHIleJZ1I4bZpKboNInQWBPBaZFPfT5nrSGHAfCZAgk8m4KQKoQHRNfZAgXVPSFeiTwlP6srcvDHI00m34cBOwayalG0hAgkw3Au8UpXYSY5Agm+amO9cUqVwjCiTItqCqmkwu2UgKWCBnI5siaJvIphtObpNpkCOR73yABAkS5B8en3eL1YRuBTKhAAAAAElFTkSuQmCC" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#更改接入"><span class="post-toc-number">1.</span> <span class="post-toc-text">更改接入</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#指定节点"><span class="post-toc-number">2.</span> <span class="post-toc-text">指定节点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#后"><span class="post-toc-number">3.</span> <span class="post-toc-text">后</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <p>Cloudflare 一直是业内良心商家的典范。强大的服务，充足的免费额度，提供免费的 CDN 更是让许多小站长免收恶意攻击。但是引来过多用户，原本富裕的服务变得拥堵，也是在所难免。这时我们只能「曲线救国」，通过第三方接入来避开被「玩坏」的免费节点。</p>
+<a id="more"></a>
+
+<p>本文就介绍一下通过第三方平台接入免费指定 Cloudflare CDN 节点的方法，顺便分享一下国内三网合适的节点。</p>
+<h2 id="更改接入"><a href="#更改接入" class="headerlink" title="更改接入"></a>更改接入</h2><p>Cloudflare 免费版是不支持 CNAME/IP 接入的，只能通过 NS 的形式接入。所以想要手动解析到特定的 CDN 节点接入，就不得不借助第三方服务 Cloudflare Partner 。</p>
+<p><a href="https://www.cloudflare.com/partners/" target="_blank" rel="noopener">Cloudflare Partner</a> 是一个 Cloudflare 的合作伙伴分销计划。由 Cloudflare 提供官方 API 接口，可以使用 WHMCS ， Cpanel 等面板集成 Cloudflare 的 CDN 加速服务。重点是大多数第三方平台没有接入限制，也就是说可以通过 IP 接入达到指定 CDN 节点的目的。</p>
+<p>首先自然是选取一个 Partner 接入，我选择的是 <a href="https://cdn.bnxb.com/" target="_blank" rel="noopener">笨牛网</a> 。他们使用的是 GitHub 开源面板搭建的，不用担心数据隐私问题。</p>
+<p>首先使用 Cloudflare 账号登陆奔牛网的面板，选择你要解析的域名，进入点击 <strong>变更接入</strong> - <strong>CNAME 接入</strong> 。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228213325.PNG" alt=""></p>
+<p><strong>注意这一步会取消当前所有解析，请先备份！</strong> </p>
+<p>然后添加你需要的二级解析。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228213143.PNG" alt=""></p>
+<h2 id="指定节点"><a href="#指定节点" class="headerlink" title="指定节点"></a>指定节点</h2><p>这时候我们就可以将域名解析到指定 Cloudflare 节点上完成接入了。肯定不能再使用 Cloudflare 自己接自己，我们还需要另一个 DNS 服务商来完成，这里拿腾讯的 DNSPod 举例。</p>
+<p>使用 邮箱 + 手机号 注册或者直接使用微信号登陆。DNSPod 域名可以不备案解析，目前我自己并没有遇到什么问题。</p>
+<p>登陆进去后，进入「DNS管理 - 添加域名」，将你的域名添加进去。然后根据提示修改域名的 NS 服务器，把域名交给 DNSPod 解析。</p>
+<p>注意这里解析的二级域名和前面添加的一直，然后模式选择 「A 接入」，内容是 Cloudflare CDN 的 IP。</p>
+<p>你甚至可以给三网分配不同的节点，然后海外使用默认的节点，尽可能优化速度。然后境外使用默认分配节点，防止被官方<em>关照</em>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/chralpha/imgbag/20200228213144.PNG" alt=""></p>
+<p>关于 Cloudflare 的推荐 IP 可以参考（摘自 <a href="https://wzfou.com/question/11632/" target="_blank" rel="noopener">挖站否</a>）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line">108.162.236.1&#x2F;24 联通 走美国</span><br><span class="line">172.64.32.1&#x2F;24 移动 走香港</span><br><span class="line">104.16.160.1&#x2F;24 电信 走美国洛杉矶</span><br><span class="line"></span><br><span class="line">-----------------------------------------</span><br><span class="line"></span><br><span class="line">172.64.0.0&#x2F;24 电信 美国旧金山</span><br><span class="line">104.20.157.0&#x2F;24 联通 走日本</span><br><span class="line">104.28.14.0&#x2F;24 移动 走新加坡</span><br><span class="line"></span><br><span class="line"> （联通移动推荐节点）</span><br><span class="line"> 104.23.240.0-104.23.243.254</span><br><span class="line"> </span><br><span class="line"> （电信推荐百度云合作ip）</span><br><span class="line"> 162.159.208.4-162.159.208.103</span><br><span class="line"> 162.159.209.4-162.159.209.103</span><br><span class="line"> 162.159.210.4-162.159.210.103</span><br><span class="line"> 162.159.211.4-162.159.211.103</span><br><span class="line"> </span><br><span class="line">-----------------------------------------</span><br><span class="line"></span><br><span class="line">节点速度比较快的有：</span><br><span class="line">104.20.157.2 </span><br><span class="line">104.18.62.2 </span><br><span class="line">141.101.115.3 </span><br><span class="line">104.16.160.3</span><br><span class="line"></span><br><span class="line">百度云加速与Cloudflare合作节点还有：</span><br><span class="line">162.159.211.4-103</span><br><span class="line">103.21.244.0&#x2F;22</span><br><span class="line">103.22.200.0&#x2F;22</span><br><span class="line">103.31.4.0&#x2F;22</span><br><span class="line">104.16.0.0&#x2F;12</span><br><span class="line">108.162.192.0&#x2F;18</span><br><span class="line">131.0.72.0&#x2F;22</span><br><span class="line">141.101.64.0&#x2F;18</span><br><span class="line">162.158.0.0&#x2F;15</span><br><span class="line">172.64.0.0&#x2F;13</span><br><span class="line">173.245.48.0&#x2F;20</span><br><span class="line">188.114.96.0&#x2F;20</span><br><span class="line">190.93.240.0&#x2F;20</span><br><span class="line">197.234.240.0&#x2F;22</span><br><span class="line">198.41.128.0&#x2F;17</span><br><span class="line"></span><br><span class="line">-----------------------------------------</span><br><span class="line"></span><br><span class="line">其它的节点还有：</span><br><span class="line"></span><br><span class="line">#适合电信的节点</span><br><span class="line">104.23.240.*</span><br><span class="line"></span><br><span class="line">#走欧洲各国出口 英国德国荷兰等 延迟比美国高一些 适合源站在欧洲的网站</span><br><span class="line">172.64.32.*</span><br><span class="line"></span><br><span class="line">#虽然去程走新加坡，但是回程线路的绕路的，实际效果不好，不推荐</span><br><span class="line">104.16.160.*</span><br><span class="line"></span><br><span class="line">#圣何塞的线路，比洛杉矶要快一点，推荐</span><br><span class="line">108.162.236.*</span><br><span class="line"></span><br><span class="line">#亚特兰大线路，延迟稳定，但是延迟较高</span><br><span class="line"></span><br><span class="line">#适合移动的节点</span><br><span class="line"></span><br><span class="line">162.158.133.* </span><br><span class="line">#走的丹麦，这一段ip只有部分能用，可以自己试一下。绕美国。</span><br><span class="line"></span><br><span class="line">198.41.214.*</span><br><span class="line">198.41.212.*</span><br><span class="line">198.41.208.*</span><br><span class="line">198.41.209.*</span><br><span class="line">172.64.32.*</span><br><span class="line">141.101.115.*</span><br><span class="line">#移动走香港的IP段有很多，以上并不是全部。CF移动走香港的分直连和走ntt的效果都挺不错的，不过部分地区晚上还是会丢包。</span><br><span class="line"></span><br><span class="line">172.64.0. *</span><br><span class="line">#这是走圣何塞的，一般用香港的就行</span><br><span class="line">172.64.16.* </span><br><span class="line">#欧洲线路.绕</span><br><span class="line"></span><br><span class="line">-----------------------------------------</span><br><span class="line"></span><br><span class="line">电信部分</span><br><span class="line">大多数省直接使用1.0.0.0即可，延迟低，丢包少，</span><br><span class="line"></span><br><span class="line">-----------------------------------------</span><br><span class="line"></span><br><span class="line">#移动部分</span><br><span class="line"></span><br><span class="line">#新加坡</span><br><span class="line"> 104.18.48.0-104.18.63.255</span><br><span class="line">104.24.112.0-104.24.127.255</span><br><span class="line">104.27.128.0-104.27.143.255</span><br><span class="line">104.28.0.0-104.28.15.255</span><br><span class="line"></span><br><span class="line">#圣何塞 </span><br><span class="line">104.28.16.0-31.255</span><br><span class="line">104.27.144.0-243.254</span><br><span class="line">104.23.240.0-243.254</span><br><span class="line"></span><br><span class="line">#香港cloudflare1-100g.hkix.net</span><br><span class="line">1.0.0.0-254</span><br><span class="line">1.1.1.0-254</span><br><span class="line"></span><br><span class="line"> #香港直连</span><br><span class="line">104.16.0.0-79.255</span><br><span class="line">104.16.96.0-175.254</span><br><span class="line">104.16.192.0-207.255</span><br></pre></td></tr></table></figure>
+
+<h2 id="后"><a href="#后" class="headerlink" title="后"></a>后</h2><p>这番配置下来并不需要多少时间，但是得到的回报还是比较丰厚的。通过第三方平台接入，我们又可以免费薅上 Cloudflare 一把。</p>
+<p>建议通过一些多点地网络工具测试一下上述 IP 在国内的连接效果，选择更合适的节点。</p>
+<br>
+
+<p>( Ended, thanks for reading! )</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">This article was last updated on <span id="date-expire-num"></span> days ago, and the information described in the article may have changed.</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-02-29");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">Published at&nbsp;<time datetime="2020-02-28T06:25:25.000Z" itemprop="datePublished">2020-02-28</time>
+
+    , Updated at&nbsp;<time datetime="2020-02-28T23:59:38.700Z" itemprop="dateModified">2020-02-29</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E7%AC%94%E8%AE%B0%E6%9C%AC/'>笔记本</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Free/" rel="tag">#&nbsp;Free</a>
+
+<a class="post-tags-list-item" href="/tags/CDN/" rel="tag">#&nbsp;CDN</a>
+
+<a class="post-tags-list-item" href="/tags/Cloudflare/" rel="tag">#&nbsp;Cloudflare</a>
+
+<a class="post-tags-list-item" href="/tags/DNS/" rel="tag">#&nbsp;DNS</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/post/automated-deployment-of-serverless-static-blog/" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">初探无后端静态博客自动化部署方案</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://test.ichr.ml">ChrAlpha 的实验室</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.3 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
